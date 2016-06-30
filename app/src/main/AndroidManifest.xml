@@ -22,7 +22,15 @@
 
         <activity
             android:name=".OpenRecipeActivity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity">
+
+        </activity>
+
+        <activity
+            android:name=".SettingsActivity"
+            android:label="Settings">
+
+        </activity>
 
     </application>
 
