@@ -1,6 +1,8 @@
 package com.example.kines.myapplication;
 
+import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.support.v7.widget.Toolbar;
 
 import java.util.List;
 
@@ -9,6 +11,7 @@ import java.util.List;
  */
 
 public class SettingsActivity extends PreferenceActivity {
+
     @Override
     public void onBuildHeaders(List<Header> target) {
         loadHeadersFromResource(R.xml.headers_preference, target);
@@ -18,4 +21,6 @@ public class SettingsActivity extends PreferenceActivity {
     protected boolean isValidFragment(String fragmentName) {
         return SettingsFragment.class.getName().equals(fragmentName);
     }
+
+
 }

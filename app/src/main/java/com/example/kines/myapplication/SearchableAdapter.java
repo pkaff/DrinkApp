@@ -3,8 +3,12 @@ package com.example.kines.myapplication;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.ListPreference;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,13 +125,34 @@ public class SearchableAdapter extends BaseAdapter {
                 results.count = originalData.size();
                 return results;
             }
+
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            String mode = pref.getString("filteringModePref", "0");
+            switch (mode) {
+                case "1": //and mode
+                    for (int i = 0; i < count; ++i) {
+                        filterableDrink = list.get(i);
+                        if (filterableDrink.containsAllOf(ingredientsFilter)) {
+                            nList.add(filterableDrink);
+                        }
+                    }
+                    break;
+                case "2": //ingredient mode
+                    for (int i = 0; i < count; ++i) {
+                        filterableDrink = list.get(i);
+                        if (filterableDrink.canBeMadeWith(ingredientsFilter)) {
+                            nList.add(filterableDrink);
+                        }
+                    }
+                    break;
+            }
             //AND on filter
-            for (int i = 0; i < count; ++i) {
+            /*for (int i = 0; i < count; ++i) {
                 filterableDrink = list.get(i);
                 if (filterableDrink.containsAllOf(ingredientsFilter)) {
                     nList.add(filterableDrink);
                 }
-            }
+            }*/
             //OR on filter
             /*for (int i = 0; i < count; ++i) {
                 filterableDrink = list.get(i);

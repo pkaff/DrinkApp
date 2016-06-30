@@ -5,7 +5,7 @@
 
     <header
         android:fragment="com.example.kines.myapplication.SettingsFragment"
-        android:title="Goto: Preference fragment"
-        android:summary="An example of some preferences." />
+        android:title="Filtering mode"
+        android:summary="Choose how the ingredient filtering works." />
 
 </preference-headers>

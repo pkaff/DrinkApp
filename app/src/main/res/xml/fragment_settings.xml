@@ -7,12 +7,14 @@
 
 
     <PreferenceCategory
-        android:title="Settings">
+        android:title="Filtering mode">
 
-        <CheckBoxPreference
-            android:key="checkBoxPref"
-            android:title="check it out"
-            android:summary="click this little box"/>
+        <ListPreference
+            android:key="filteringModePref"
+            android:title="Filtering mode"
+            android:defaultValue="What drinks can I make that contains these ingredients"
+            android:entries="@array/filter_mode_text"
+            android:entryValues="@array/filter_mode_values"/>
 
     </PreferenceCategory>
 
