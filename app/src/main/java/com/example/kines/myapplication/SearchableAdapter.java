@@ -3,27 +3,19 @@ package com.example.kines.myapplication;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Debug;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.PriorityQueue;
 
 /**
  * Created by Kines on 2016-04-18.
@@ -83,7 +75,7 @@ public class SearchableAdapter extends BaseAdapter {
                 String drinkName = ((TextView) v).getText().toString();
                 for (Drink d : filteredData) {
                     if (d.getName().equals(drinkName)) {
-                        Intent intent = new Intent(v.getContext(), OpenRecipe.class);
+                        Intent intent = new Intent(v.getContext(), OpenRecipeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("ListViewClick", d);
                         v.getContext().startActivity(intent);

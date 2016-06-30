@@ -17,9 +17,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
         <activity
-            android:name=".OpenRecipe"></activity>
+            android:name=".OpenRecipeActivity"
+            android:parentActivityName=".MainActivity"></activity>
+
     </application>
 
 </manifest>

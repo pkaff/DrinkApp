@@ -12,6 +12,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -145,6 +148,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+
+    void queryAllDrinks(List<Drink> drinkList, Set<Ingredient> ingredients) throws SQLException {
+        Cursor cursor = myDataBase.rawQuery("select * from Drinks", null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    Drink drink = new Drink(cursor);
+                    for (Ingredient i : drink.getIngredients()) {
+                        ingredients.add(i);
+                    }
+                    drinkList.add(drink);
+                } while (cursor.moveToNext());
+            }
+        }
     }
 
     Cursor queryData(String query) throws SQLException {

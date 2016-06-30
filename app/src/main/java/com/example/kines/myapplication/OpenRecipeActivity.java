@@ -6,17 +6,32 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class OpenRecipe extends AppCompatActivity {
+public class OpenRecipeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_recipe);
+
+        //Toolbar
         Toolbar t = (Toolbar) findViewById(R.id.toolbar);
         t.showOverflowMenu();
         setSupportActionBar(t);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        /*findViewById(R.id.toolbarText).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), MainActivity.class);
+                String msg = "Clicked toolbar";
+                intent.putExtra("Toolbar click", msg);
+                startActivity(intent);
+            }
+        });*/
 
         Intent intent = getIntent();
         Drink d = (Drink) intent.getParcelableExtra("ListViewClick");

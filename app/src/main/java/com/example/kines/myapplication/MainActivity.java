@@ -1,7 +1,6 @@
 package com.example.kines.myapplication;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -39,42 +38,34 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
+
+        //toolbar
         Toolbar t = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(t);
+
+        //Database stuff
         myDb = new DatabaseHelper(this);
         try {
             myDb.createDataBase();
             myDb.openDataBase();
-        } catch (IOException e) {
-
-        }
+        } catch (IOException e) {}
         try {
-            Cursor cursor = myDb.queryData("select * from Drinks");
-            if (cursor != null) {
-                if (cursor.moveToFirst()) {
-                    do {
-                        Drink drink = new Drink(cursor);
-                        for (Ingredient i : drink.getIngredients()) {
-                            ingredientSet.add(i);
-                        }
-                        drinkList.add(drink);
-                    } while (cursor.moveToNext());
-                }
-            }
+            myDb.queryAllDrinks(drinkList, ingredientSet);
         } catch (SQLException e) {}
         myDb.close();
-        lv = (ListView) findViewById(R.id.drinkListView);
 
         Collections.sort(drinkList); //Sort by name
 
         adapter = new SearchableAdapter(MainActivity.this, drinkList);
 
+        //listview
+        lv = (ListView) findViewById(R.id.drinkListView);
         lv.setAdapter(adapter);
         lv.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(view.getContext(), OpenRecipe.class);
+                Intent intent = new Intent(view.getContext(), OpenRecipeActivity.class);
                 String msg = "";
                 if (view instanceof  TextView) {
                     msg = ((TextView) view).getText().toString();
@@ -140,9 +131,9 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(id) {
+            case R.id.action_settings:
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
