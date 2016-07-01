@@ -85,8 +85,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS drink");
-        db.execSQL("DROP TABLE IF EXISTS drink_ingredients");
-        db.execSQL("DROP TABLE IF EXISTS ingredients");
+        db.execSQL("DROP TABLE IF EXISTS drink_ingredient");
+        db.execSQL("DROP TABLE IF EXISTS ingredient");
 
         onCreate(db);
     }
@@ -146,6 +146,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void syncDrinks(JSONArray jsonArray) throws JSONException {
+        onUpgrade(myDataBase, 0, 0);
         for(int i=0; i < jsonArray.length(); i++) {
             JSONObject JSONdrink = jsonArray.getJSONObject(i);
 
