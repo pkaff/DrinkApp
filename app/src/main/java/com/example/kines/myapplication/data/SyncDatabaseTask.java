@@ -5,6 +5,9 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.kines.myapplication.DatabaseHelper;
+import com.example.kines.myapplication.Drink;
+import com.example.kines.myapplication.Ingredient;
 import com.example.kines.myapplication.MainActivity;
 
 import org.apache.commons.io.IOUtils;
@@ -16,14 +19,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class SyncDatabaseTask extends AsyncTask<String, String, Void>
 {
+    private DatabaseHelper db;
     private ProgressDialog progressDialog;
+    private List<Drink> drinkList;
+    private Set<Ingredient> ingredientSet;
     String result = "";
+    private MainActivity mainActivity;
 
-    public SyncDatabaseTask(MainActivity mainActivity) {
+    public SyncDatabaseTask(MainActivity mainActivity, List<Drink> drinkList, Set<Ingredient> ingredientSet, DatabaseHelper myDb) {
+        this.drinkList = drinkList;
+        this.ingredientSet = ingredientSet;
+        this.mainActivity = mainActivity;
         progressDialog = new ProgressDialog(mainActivity);
+        this.db = myDb;
     }
 
     protected void onPreExecute() {
@@ -43,8 +57,9 @@ public class SyncDatabaseTask extends AsyncTask<String, String, Void>
         Log.d("sync", "start post excecute");
         try {
             JSONArray jsonArray = new JSONArray(result);
-
-
+            db.syncDrinks(jsonArray);
+            db.queryAllDrinks(drinkList, ingredientSet);
+            mainActivity.populate();
             this.progressDialog.dismiss();
         } catch(JSONException e) {
             Log.e("JSONException", "Error: " + e.toString());

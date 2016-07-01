@@ -1,6 +1,7 @@
 package com.example.kines.myapplication;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -49,18 +50,33 @@ public class MainActivity extends AppCompatActivity {
 
         //Database stuff
         myDb = new DatabaseHelper(this, this);
-        try {
-            myDb.createDataBase();
-            myDb.openDataBase();
-        } catch (IOException e) {}
-        try {
-            myDb.queryAllDrinks(drinkList, ingredientSet);
-        } catch (SQLException e) {}
-        myDb.close();
+        AsyncTask task = new SyncDatabaseTask(this, drinkList, ingredientSet, myDb).execute();
 
-        Log.d("asdas","asda");
-        AsyncTask task = new SyncDatabaseTask(this).execute();
+        populate();
 
+        edit = (EditText) findViewById(R.id.drinkFilterText);
+        edit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.getNameFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+
+    }
+
+    public void populate() {
         Collections.sort(drinkList); //Sort by name
 
         adapter = new SearchableAdapter(MainActivity.this, drinkList);
@@ -88,27 +104,8 @@ public class MainActivity extends AppCompatActivity {
         });
         adapter.notifyDataSetChanged();
 
-        edit = (EditText) findViewById(R.id.drinkFilterText);
-        edit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getNameFilter().filter(s);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
         MultiSpinner multiSpinner = (MultiSpinner) findViewById(R.id.ingredientSelector);
         multiSpinner.setItems(ingredientSet, "Ingredients filtering", new MSL(), adapter);
-
     }
 
     public class MSL implements MultiSpinner.MultiSpinnerListener{
