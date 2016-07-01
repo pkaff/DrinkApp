@@ -3,8 +3,12 @@ package com.example.kines.myapplication;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.ListPreference;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,20 +125,30 @@ public class SearchableAdapter extends BaseAdapter {
                 results.count = originalData.size();
                 return results;
             }
-            //AND on filter
-            for (int i = 0; i < count; ++i) {
-                filterableDrink = list.get(i);
-                if (filterableDrink.containsAllOf(ingredientsFilter)) {
-                    nList.add(filterableDrink);
-                }
+
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            String mode = pref.getString("filteringModePref", "0");
+            String errorMessage = "";
+            switch (mode) {
+                case "1": //and mode
+                    for (int i = 0; i < count; ++i) {
+                        filterableDrink = list.get(i);
+                        if (filterableDrink.containsAllOf(ingredientsFilter)) {
+                            nList.add(filterableDrink);
+                        }
+                    }
+                    errorMessage = "No drinks in the database contains all of the ingredients selected in the ingredient selector.";
+                    break;
+                case "2": //ingredient mode
+                    for (int i = 0; i < count; ++i) {
+                        filterableDrink = list.get(i);
+                        if (filterableDrink.canBeMadeWith(ingredientsFilter)) {
+                            nList.add(filterableDrink);
+                        }
+                    }
+                    errorMessage = "No drinks in the database can be made with the ingredients selected in the ingredient selector.";
+                    break;
             }
-            //OR on filter
-            /*for (int i = 0; i < count; ++i) {
-                filterableDrink = list.get(i);
-                if (filterableDrink.containsSomeOf(ingredientsFilter)) {
-                    nList.add(filterableDrink);
-                }
-            }*/
 
             //Sorting - not working
             /*for (int i = 0; i < count; ++i) {
@@ -154,7 +168,7 @@ public class SearchableAdapter extends BaseAdapter {
             if (nList.isEmpty()) {
                 new AlertDialog.Builder(context)
                         .setTitle("Bad filter")
-                        .setMessage("No drinks in the database contains all of the ingredients selected in the ingredient selector.")
+                        .setMessage(errorMessage)
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();
