@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <PreferenceCategory
+        android:title="Filtering mode">
+
+        <ListPreference
+            android:key="filteringModePref"
+            android:title="Filtering mode"
+            android:defaultValue="What drinks can I make that contains these ingredients"
+            android:entries="@array/filter_mode_text"
+            android:entryValues="@array/filter_mode_values"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

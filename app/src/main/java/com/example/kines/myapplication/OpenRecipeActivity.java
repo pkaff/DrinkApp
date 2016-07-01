@@ -11,27 +11,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class OpenRecipeActivity extends AppCompatActivity {
+public class OpenRecipeActivity extends ToolbarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_recipe);
+        setToolbar();
 
-        //Toolbar
-        Toolbar t = (Toolbar) findViewById(R.id.toolbar);
-        t.showOverflowMenu();
-        setSupportActionBar(t);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        /*findViewById(R.id.toolbarText).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MainActivity.class);
-                String msg = "Clicked toolbar";
-                intent.putExtra("Toolbar click", msg);
-                startActivity(intent);
-            }
-        });*/
 
         Intent intent = getIntent();
         Drink d = (Drink) intent.getParcelableExtra("ListViewClick");
@@ -51,27 +39,5 @@ public class OpenRecipeActivity extends AppCompatActivity {
         }
         rIng.setText(ingredients);
         rInstr.setText(d.getInstructions());
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

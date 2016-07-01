@@ -62,6 +62,15 @@ public class Drink implements Parcelable, Comparable<Drink>{
         return true;
     }
 
+    public boolean canBeMadeWith(List<String> ingredientNames) {
+        for (Ingredient i : ingredients) {
+            if (!ingredientNames.contains(i.getName().toLowerCase())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public List<Ingredient> getIngredients() {
         return ingredients;
     }
