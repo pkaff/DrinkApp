@@ -13,6 +13,14 @@ if(isset($_POST['row'])) {
     $ingredients = $items[4];
     $instructions = $items[5];
 
+    if(strstr($instructions,'"')!=-1) {
+        // This is if the instructions contains commas, we need to find all parts and put them together
+        $instructions = trim($instructions, '"');
+        for($i=6; $i < count($items); $i++) {
+            $instructions .= trim($items[$i], '"');
+        }
+    }
+
     $ingredientsItems = explode("|", $ingredients);
     $ingredients = array();
     foreach($ingredientsItems as $ingredient) {
