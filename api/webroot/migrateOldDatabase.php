@@ -1,5 +1,6 @@
 <?php
 
+die();
 
 if(isset($_POST['row'])) {
     include "connect.php";
