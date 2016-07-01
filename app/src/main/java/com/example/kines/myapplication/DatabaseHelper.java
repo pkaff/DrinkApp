@@ -173,11 +173,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 double size = JSONIngredient.getDouble("size");
 
                 // add ingredient to db
-                values = new ContentValues();
-                values.put("id", ingredientId);
-                values.put("name", ingredientName);
+                Cursor checkIngredient = myDataBase.rawQuery("SELECT * FROM ingredient WHERE id = "+ingredientId,null);
 
-                myDataBase.insert("ingredient", null, values);
+                if(checkIngredient.getCount() == 0) {
+                    values = new ContentValues();
+                    values.put("id", ingredientId);
+                    values.put("name", ingredientName);
+                    myDataBase.insert("ingredient", null, values);
+                }
 
                 // add connection to db
                 values = new ContentValues();
