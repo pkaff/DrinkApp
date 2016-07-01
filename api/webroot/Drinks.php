@@ -19,12 +19,15 @@ $HTTPverb = $_SERVER["REQUEST_METHOD"];
 switch($HTTPverb) {
     
     case "GET": 
+        $add = "";
         if(is_numeric($pathArr[0])) {
-            // get 1 drink, with all ingredients
-            $query = $db->query("SELECT * FROM drink WHERE id = '" . intval($pathArr[0]) . "'");
-            if($query->num_rows > 0) {
-                $drink = $query->fetch_assoc();
+            $add = "WHERE id = '" . intval($pathArr[0]) . "'";
+        }
+        $query = $db->query("SELECT * FROM drink".$add);
+        if($query->num_rows > 0) {
+            $result = $query->fetch_all(MYSQLI_ASSOC);
 
+            foreach($result as $key => $drink) {
                 $queryIngredients = $db->query("
                     SELECT
                         ingredient.id as id,
@@ -37,21 +40,14 @@ switch($HTTPverb) {
                     WHERE 
                         drink_ingredient.drink_id = {$drink['id']}
                 ");
+                $result[$key]["ingredients"] = $queryIngredients->fetch_all(MYSQLI_ASSOC);
+            }
 
-                $drink["ingredients"] = $queryIngredients->fetch_all(MYSQLI_ASSOC);
-                $result = [$drink];
-            } else {
-                $result = [];
-            }
+
         } else {
-            // get list of drinks, only names and ids 
-            $query = $db->query("SELECT * FROM drink");
-            if($query->num_rows > 0) {
-                $result = $query->fetch_all(MYSQLI_ASSOC);
-            } else {
-                $result = [];
-            }
+            $result = [];
         }
+        
 
         send($result);
 
