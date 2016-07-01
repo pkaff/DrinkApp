@@ -62,7 +62,6 @@ public class SyncDatabaseTask extends AsyncTask<String, String, Void>
             } catch(JSONException f) {
                 throw new RuntimeException(f);
             }
-                db.queryAllDrinks(drinkList, ingredientSet);
             mainActivity.populate();
             this.progressDialog.dismiss();
         } catch(JSONException e) {

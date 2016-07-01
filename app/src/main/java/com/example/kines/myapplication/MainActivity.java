@@ -1,10 +1,12 @@
 package com.example.kines.myapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -40,6 +42,19 @@ public class MainActivity extends ToolbarActivity {
     EditText edit;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        boolean previouslyStarted = prefs.getBoolean(getString(R.string.firstOpen), false);
+        if(!previouslyStarted) {
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putBoolean(getString(R.string.firstOpen), Boolean.TRUE);
+            edit.commit();
+            new SyncDatabaseTask(this, drinkList, ingredientSet, myDb).execute();
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
@@ -47,7 +62,6 @@ public class MainActivity extends ToolbarActivity {
 
         //Database stuff
         myDb = new DatabaseHelper(this, this);
-        AsyncTask task = new SyncDatabaseTask(this, drinkList, ingredientSet, myDb).execute();
 
         populate();
 
@@ -74,6 +88,7 @@ public class MainActivity extends ToolbarActivity {
     }
 
     public void populate() {
+        myDb.queryAllDrinks(drinkList, ingredientSet);
         Collections.sort(drinkList); //Sort by name
 
         adapter = new SearchableAdapter(MainActivity.this, drinkList);
