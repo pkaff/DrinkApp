@@ -27,14 +27,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static String DB_NAME = "Drink_Recipes.db";
 
+    private MainActivity activity;
+
     /**
      * Constructor
      * Takes and keeps a reference of the passed context in order to access to the application assets and resources.
      * @param context
      */
-    public DatabaseHelper(Context context) {
+    public DatabaseHelper(Context context, MainActivity activity) {
         super(context, DB_NAME, null, 1);
         this.myContext = context;
+        this.activity = activity;
     }
 
     /**

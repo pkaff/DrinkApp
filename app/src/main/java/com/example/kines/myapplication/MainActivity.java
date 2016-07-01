@@ -2,11 +2,13 @@ package com.example.kines.myapplication;
 
 import android.content.Intent;
 import android.database.SQLException;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.example.kines.myapplication.data.SyncDatabaseTask;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(t);
 
         //Database stuff
-        myDb = new DatabaseHelper(this);
+        myDb = new DatabaseHelper(this, this);
         try {
             myDb.createDataBase();
             myDb.openDataBase();
@@ -53,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
             myDb.queryAllDrinks(drinkList, ingredientSet);
         } catch (SQLException e) {}
         myDb.close();
+
+        Log.d("asdas","asda");
+        AsyncTask task = new SyncDatabaseTask(this).execute();
 
         Collections.sort(drinkList); //Sort by name
 
