@@ -9,14 +9,16 @@ import android.os.Parcelable;
 public class Ingredient implements Parcelable, Comparable {
     private String name;
     private double size;
+    private String unit;
 
     protected Ingredient(Parcel p) {
         name = p.readString();
         size = p.readDouble();
     }
-    public Ingredient(String n, double s) {
-        name = n;
-        size = s;
+    public Ingredient(String name, double size, String unit) {
+        this.name = name;
+        this.size = size;
+        this.unit = unit;
     }
 
     public String getName() {
@@ -37,7 +39,7 @@ public class Ingredient implements Parcelable, Comparable {
         if (obj == this) return true;
         if (!(obj instanceof Ingredient)) return false;
         Ingredient other = (Ingredient)obj;
-        return (other.name.equalsIgnoreCase(this.name) && other.size == this.size) ? true : false;
+        return (other.name.equalsIgnoreCase(this.name)) ? true : false;
     }
 
     @Override

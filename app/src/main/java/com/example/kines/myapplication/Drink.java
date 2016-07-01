@@ -18,6 +18,7 @@ public class Drink implements Parcelable, Comparable<Drink>{
     private List<Ingredient> ingredients;
     private String instructions;
     private int score;
+    private int dbID;
 
     protected Drink(Parcel p) {
         name = p.readString();
@@ -28,18 +29,12 @@ public class Drink implements Parcelable, Comparable<Drink>{
         instructions = p.readString();
     }
 
-    public Drink(Cursor c) {
+    public Drink(int id, String name, String glass, String instruction) {
         ingredients = new ArrayList<Ingredient>();
-        name = c.getString(1);
-        category = c.getString(2);
-        glass = c.getString(3);
-        String[] allIngredients = c.getString(4).split("\\|");
-        for (int i = 0; i < allIngredients.length; ++i) {
-            String[] ingredientSizeName = allIngredients[i].split("-");
-            Ingredient a = new Ingredient(ingredientSizeName[1], Double.parseDouble((ingredientSizeName[0])));
-            ingredients.add(a);
-        }
-        instructions = c.getString(5);
+        this.dbID = id;
+        this.name = name;
+        this.glass = glass;
+        this.instructions = instruction;
     }
 
     public boolean containsSomeOf(List<String> ingredientNames) {
@@ -152,4 +147,7 @@ public class Drink implements Parcelable, Comparable<Drink>{
         }
     };
 
+    public void addIngredients(ArrayList<Ingredient> ingredientsList) {
+        this.ingredients.addAll(ingredientsList);
+    }
 }

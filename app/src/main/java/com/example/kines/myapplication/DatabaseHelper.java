@@ -1,5 +1,6 @@
 package com.example.kines.myapplication;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -7,6 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,110 +29,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //The Android's default system path of your application database.
     private static String DB_PATH = "/data/data/com.example.kines.myapplication/databases/";
-
     private static String DB_NAME = "Drink_Recipes.db";
+
+    private static String TABLE_DRINK_CREATE = "CREATE TABLE IF NOT EXISTS `drink` (\n" +
+            "  `id` int(11) NOT NULL,\n" +
+            "  `name` text NOT NULL,\n" +
+            "  `glass` text NOT NULL,\n" +
+            "  `instructions` text NOT NULL\n" +
+            ")";
+
+    private static String TABLE_DRINK_INGREDIENT_CREATE = "CREATE TABLE IF NOT EXISTS `drink_ingredient` (\n" +
+            "  `drink_id` int(11) NOT NULL,\n" +
+            "  `ingredient_id` int(11) NOT NULL,\n" +
+            "  `size` double NOT NULL,\n" +
+            "  `unit` varchar(20) NOT NULL\n" +
+            ")";
+
+    private static String TABLE_INGREDIENT_CREATE = "CREATE TABLE IF NOT EXISTS `ingredient` (\n" +
+            "  `id` int(11) NOT NULL,\n" +
+            "  `name` text NOT NULL\n" +
+            ")";
+
+    private MainActivity activity;
 
     /**
      * Constructor
      * Takes and keeps a reference of the passed context in order to access to the application assets and resources.
      * @param context
      */
-    public DatabaseHelper(Context context) {
-        super(context, DB_NAME, null, 1);
+    public DatabaseHelper(Context context, MainActivity activity) {
+        super(context, DB_NAME, null, 2);
         this.myContext = context;
-    }
+        this.activity = activity;
 
-    /**
-     * Creates a empty database on the system and rewrites it with your own database.
-     * */
-    public void createDataBase() throws IOException {
-
-        boolean dbExist = checkDataBase();
-
-        if(dbExist){
-            //do nothing - database already exist
-            //SQLiteDatabase db = this.getWritableDatabase();
-        }else{
-
-            //By calling this method and empty database will be created into the default system path
-            //of your application so we are gonna be able to overwrite that database with our database.
-            this.getReadableDatabase();
-
-            try {
-
-                copyDataBase();
-
-            } catch (IOException e) {
-
-                throw new Error("Error copying database");
-
-            }
-        }
-
-    }
-
-    /**
-     * Check if the database already exist to avoid re-copying the file each time you open the application.
-     * @return true if it exists, false if it doesn't
-     */
-    private boolean checkDataBase(){
-
-        SQLiteDatabase checkDB = null;
-
-        try{
-            String myPath = DB_PATH + DB_NAME;
-            checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
-        }catch(SQLiteException e){
-
-            //database does't exist yet.
-
-        }
-
-        if(checkDB != null){
-            checkDB.close();
-
-        }
-
-        return checkDB != null ? true : false;
-    }
-
-    /**
-     * Copies your database from your local assets-folder to the just created empty database in the
-     * system folder, from where it can be accessed and handled.
-     * This is done by transfering bytestream.
-     * */
-    private void copyDataBase() throws IOException{
-
-        //Open your local db as the input stream
-        Log.d("before", "herebeforeINPUT");
-        InputStream myInput = myContext.getAssets().open(DB_NAME);
-
-        // Path to the just created empty db
-        String outFileName = DB_PATH + DB_NAME;
-        Log.d("before", "here");
-        //Open the empty db as the output stream
-        OutputStream myOutput = new FileOutputStream(outFileName);
-        Log.d("after", "here");
-        //transfer bytes from the inputfile to the outputfile
-        byte[] buffer = new byte[1024];
-        int length;
-        while ((length = myInput.read(buffer))>0){
-            myOutput.write(buffer, 0, length);
-        }
-
-        //Close the streams
-        myOutput.flush();
-        myOutput.close();
-        myInput.close();
-
-    }
-
-    public void openDataBase() throws SQLException {
-
-        //Open the database
-        String myPath = DB_PATH + DB_NAME;
-        myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
-
+        this.myDataBase = getWritableDatabase();
     }
 
     @Override
@@ -142,35 +77,122 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        db.execSQL(TABLE_DRINK_CREATE);
+        db.execSQL(TABLE_DRINK_INGREDIENT_CREATE);
+        db.execSQL(TABLE_INGREDIENT_CREATE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS drink");
+        db.execSQL("DROP TABLE IF EXISTS drink_ingredient");
+        db.execSQL("DROP TABLE IF EXISTS ingredient");
 
+        onCreate(db);
     }
 
-    void queryAllDrinks(List<Drink> drinkList, Set<Ingredient> ingredients) throws SQLException {
-        Cursor cursor = myDataBase.rawQuery("select * from Drinks", null);
+    public void queryAllDrinks(List<Drink> drinkList, Set<Ingredient> ingredients) throws SQLException {
+
+        // fetch all drinks
+        Cursor cursor = myDataBase.rawQuery("select id, name, glass, instructions from drink", null);
+
         if (cursor != null) {
             if (cursor.moveToFirst()) {
+
                 do {
-                    Drink drink = new Drink(cursor);
-                    for (Ingredient i : drink.getIngredients()) {
-                        ingredients.add(i);
+                    int dbID = cursor.getInt(0);
+                    String name = cursor.getString(1);
+                    String glass = cursor.getString(2);
+                    String instructions = cursor.getString(3);
+
+                    Drink drink = new Drink(dbID, name, glass, instructions);
+
+                    ArrayList<Ingredient> ingredientsList = new ArrayList<Ingredient>();
+
+                    // fetch ingredients from DB
+                    Cursor ingredientCursor = myDataBase.rawQuery("SELECT\n" +
+                            "ingredient.id,\n" +
+                            "ingredient.name,\n" +
+                            "drink_ingredient.size,\n" +
+                            "drink_ingredient.unit\n" +
+                            "FROM\n" +
+                            "drink_ingredient\n" +
+                            "INNER JOIN ingredient ON ingredient.id = drink_ingredient.ingredient_id\n" +
+                            "WHERE \n" +
+                            "drink_ingredient.drink_id =" + dbID, null);
+
+                    if(ingredientCursor != null) {
+                        if(ingredientCursor.moveToFirst()) {
+                            do {
+                                //int ingredientID = ingredientCursor.getInt(0);
+                                String ingredientName = ingredientCursor.getString(1);
+                                double ingredientSize = ingredientCursor.getDouble(2);
+                                String ingredientUnit = ingredientCursor.getString(3);
+
+                                Ingredient ingredient = new Ingredient(ingredientName, ingredientSize, ingredientUnit);
+                                ingredientsList.add(ingredient);
+                                ingredients.add(ingredient);
+                            } while(ingredientCursor.moveToNext());
+                        }
                     }
+
+                    drink.addIngredients(ingredientsList);
+
                     drinkList.add(drink);
                 } while (cursor.moveToNext());
+
             }
         }
     }
 
-    Cursor queryData(String query) throws SQLException {
-        return myDataBase.rawQuery(query, null);
+    public void syncDrinks(JSONArray jsonArray) throws JSONException {
+        onUpgrade(myDataBase, 0, 0);
+        for(int i=0; i < jsonArray.length(); i++) {
+            JSONObject JSONdrink = jsonArray.getJSONObject(i);
+
+            String glass = JSONdrink.getString("glass");
+            int drinkId = JSONdrink.getInt("id");
+            String instructions = JSONdrink.getString("instructions");
+            String drinkName = JSONdrink.getString("name");
+
+            ContentValues values = new ContentValues();
+            values.put("id", drinkId);
+            values.put("name", drinkName);
+            values.put("instructions", instructions);
+            values.put("glass", glass);
+
+            myDataBase.insert("drink", null, values);
+
+            JSONArray ingredients = JSONdrink.getJSONArray("ingredients");
+
+            for(int j = 0; j < ingredients.length(); j++) {
+                JSONObject JSONIngredient = ingredients.getJSONObject(j);
+
+                int ingredientId = JSONIngredient.getInt("id");
+                String ingredientName = JSONIngredient.getString("name");
+                String unit = JSONIngredient.getString("unit");
+                double size = JSONIngredient.getDouble("size");
+
+                // add ingredient to db
+                Cursor checkIngredient = myDataBase.rawQuery("SELECT * FROM ingredient WHERE id = "+ingredientId,null);
+
+                if(checkIngredient.getCount() == 0) {
+                    values = new ContentValues();
+                    values.put("id", ingredientId);
+                    values.put("name", ingredientName);
+                    myDataBase.insert("ingredient", null, values);
+                }
+
+                // add connection to db
+                values = new ContentValues();
+                values.put("ingredient_id", ingredientId);
+                values.put("drink_id", drinkId);
+                values.put("size", size);
+                values.put("unit", unit);
+
+                myDataBase.insert("drink_ingredient", null, values);
+
+            }
+        }
     }
-
-    // Add your public helper methods to access and get content from the database.
-    // You could return cursors by doing "return myDataBase.query(....)" so it'd be easy
-    // to you to create adapters for your views.
-
 }
