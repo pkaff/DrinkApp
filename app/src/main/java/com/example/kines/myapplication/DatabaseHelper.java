@@ -39,7 +39,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ")";
 
     private static String TABLE_DRINK_INGREDIENT_CREATE = "CREATE TABLE IF NOT EXISTS `drink_ingredient` (\n" +
-            "  `id` int(11) NOT NULL,\n" +
             "  `drink_id` int(11) NOT NULL,\n" +
             "  `ingredient_id` int(11) NOT NULL,\n" +
             "  `size` double NOT NULL,\n" +
@@ -59,11 +58,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param context
      */
     public DatabaseHelper(Context context, MainActivity activity) {
-        super(context, DB_NAME, null, 1);
+        super(context, DB_NAME, null, 2);
         this.myContext = context;
         this.activity = activity;
 
-        getWritableDatabase();
+        this.myDataBase = getWritableDatabase();
     }
 
     @Override
@@ -81,8 +80,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(TABLE_DRINK_CREATE);
         db.execSQL(TABLE_DRINK_INGREDIENT_CREATE);
         db.execSQL(TABLE_INGREDIENT_CREATE);
-
-        this.myDataBase = db;
     }
 
     @Override
@@ -95,16 +92,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void queryAllDrinks(List<Drink> drinkList, Set<Ingredient> ingredients) throws SQLException {
-        Cursor cursor = myDataBase.rawQuery("select * from Drinks", null);
+
+        // fetch all drinks
+        Cursor cursor = myDataBase.rawQuery("select id, name, glass, instructions from drink", null);
+
         if (cursor != null) {
             if (cursor.moveToFirst()) {
+
                 do {
-                    Drink drink = new Drink(cursor);
-                    for (Ingredient i : drink.getIngredients()) {
-                        ingredients.add(i);
+                    int dbID = cursor.getInt(0);
+                    String name = cursor.getString(1);
+                    String glass = cursor.getString(2);
+                    String instructions = cursor.getString(3);
+
+                    Drink drink = new Drink(dbID, name, glass, instructions);
+
+                    ArrayList<Ingredient> ingredientsList = new ArrayList<Ingredient>();
+
+                    // fetch ingredients from DB
+                    Cursor ingredientCursor = myDataBase.rawQuery("SELECT\n" +
+                            "ingredient.id,\n" +
+                            "ingredient.name,\n" +
+                            "drink_ingredient.size,\n" +
+                            "drink_ingredient.unit\n" +
+                            "FROM\n" +
+                            "drink_ingredient\n" +
+                            "INNER JOIN ingredient ON ingredient.id = drink_ingredient.ingredient_id\n" +
+                            "WHERE \n" +
+                            "drink_ingredient.drink_id =" + dbID, null);
+
+                    if(ingredientCursor != null) {
+                        if(ingredientCursor.moveToFirst()) {
+                            do {
+                                //int ingredientID = ingredientCursor.getInt(0);
+                                String ingredientName = ingredientCursor.getString(1);
+                                double ingredientSize = ingredientCursor.getDouble(2);
+                                String ingredientUnit = ingredientCursor.getString(3);
+
+                                Ingredient ingredient = new Ingredient(ingredientName, ingredientSize, ingredientUnit);
+                                ingredientsList.add(ingredient);
+                                ingredients.add(ingredient);
+                            } while(ingredientCursor.moveToNext());
+                        }
                     }
+
+                    drink.addIngredients(ingredientsList);
+
                     drinkList.add(drink);
                 } while (cursor.moveToNext());
+
             }
         }
     }
@@ -118,7 +154,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String instructions = JSONdrink.getString("instructions");
             String drinkName = JSONdrink.getString("name");
 
-            // add drink to db
+            ContentValues values = new ContentValues();
+            values.put("id", drinkId);
+            values.put("name", drinkName);
+            values.put("instructions", instructions);
+            values.put("glass", glass);
+
+            myDataBase.insert("drink", null, values);
 
             JSONArray ingredients = JSONdrink.getJSONArray("ingredients");
 
@@ -131,7 +173,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 double size = JSONIngredient.getDouble("size");
 
                 // add ingredient to db
+                values = new ContentValues();
+                values.put("id", ingredientId);
+                values.put("name", ingredientName);
+
+                myDataBase.insert("ingredient", null, values);
+
                 // add connection to db
+                values = new ContentValues();
+                values.put("ingredient_id", ingredientId);
+                values.put("drink_id", drinkId);
+                values.put("size", size);
+                values.put("unit", unit);
+
+                myDataBase.insert("drink_ingredient", null, values);
+
             }
         }
     }

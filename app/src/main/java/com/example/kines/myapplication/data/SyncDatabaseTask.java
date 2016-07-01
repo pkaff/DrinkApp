@@ -57,8 +57,12 @@ public class SyncDatabaseTask extends AsyncTask<String, String, Void>
         Log.d("sync", "start post excecute");
         try {
             JSONArray jsonArray = new JSONArray(result);
-            db.syncDrinks(jsonArray);
-            db.queryAllDrinks(drinkList, ingredientSet);
+            try {
+                db.syncDrinks(jsonArray);
+            } catch(JSONException f) {
+                throw new RuntimeException(f);
+            }
+                db.queryAllDrinks(drinkList, ingredientSet);
             mainActivity.populate();
             this.progressDialog.dismiss();
         } catch(JSONException e) {
