@@ -127,10 +127,10 @@ public class SearchableAdapter extends BaseAdapter {
             }
 
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-            String mode = pref.getString("filteringModePref", "0");
+            String mode = pref.getString("filteringModePref", "No mode");
             String errorMessage;
             switch (mode) {
-                case "1": //and mode
+                case "And mode":
                     for (int i = 0; i < count; ++i) {
                         filterableDrink = list.get(i);
                         if (filterableDrink.containsAllOf(ingredientsFilter)) {
@@ -139,7 +139,7 @@ public class SearchableAdapter extends BaseAdapter {
                     }
                     errorMessage = "No drinks in the database contains all of the ingredients selected in the ingredient selector.";
                     break;
-                case "2": //ingredient mode
+                case "Ingredient mode":
                     for (int i = 0; i < count; ++i) {
                         filterableDrink = list.get(i);
                         if (filterableDrink.canBeMadeWith(ingredientsFilter)) {

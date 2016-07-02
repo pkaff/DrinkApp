@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="filter_mode_text">
-        <item>What drinks can I make that contains these ingredients</item>
-        <item>What can I make from the selected ingredients</item>
+        <item>"And mode". What drinks can I make that contains these ingredients?</item>
+        <item>"Ingredient mode". What can I make from the selected ingredients?</item>
     </string-array>
 
     <string-array name="filter_mode_values">
-        <item>1</item>
-        <item>2</item>
+        <item>And mode</item>
+        <item>Ingredient mode</item>
     </string-array>
 
 </resources>
