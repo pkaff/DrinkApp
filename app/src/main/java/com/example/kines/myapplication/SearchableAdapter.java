@@ -128,7 +128,7 @@ public class SearchableAdapter extends BaseAdapter {
 
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
             String mode = pref.getString("filteringModePref", "0");
-            String errorMessage = "";
+            String errorMessage;
             switch (mode) {
                 case "1": //and mode
                     for (int i = 0; i < count; ++i) {
@@ -147,6 +147,9 @@ public class SearchableAdapter extends BaseAdapter {
                         }
                     }
                     errorMessage = "No drinks in the database can be made with the ingredients selected in the ingredient selector.";
+                    break;
+                default:
+                    errorMessage = "No filter type selected in settings.";
                     break;
             }
 
