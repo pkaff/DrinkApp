@@ -123,7 +123,12 @@ public class MainActivity extends ToolbarActivity {
         adapter.notifyDataSetChanged();
 
         MultiSpinner multiSpinner = (MultiSpinner) findViewById(R.id.ingredientSelector);
-        multiSpinner.setItems(ingredientSet, "Ingredients filtering", new MSL(), adapter);
+        multiSpinner.setItems(ingredientSet, "Ingredients filtering", new MultiSpinner.MultiSpinnerListener() {
+            @Override
+            public void onItemsSelected(boolean[] selected) {
+
+            }
+        }, adapter);
         multiSpinner.setLongClickable(true);
         multiSpinner.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -134,13 +139,6 @@ public class MainActivity extends ToolbarActivity {
                 return false;
             }
         });
-    }
-
-    public class MSL implements MultiSpinner.MultiSpinnerListener{
-
-        @Override
-        public void onItemsSelected(boolean[] selected) {
-        }
     }
 
     @Override
