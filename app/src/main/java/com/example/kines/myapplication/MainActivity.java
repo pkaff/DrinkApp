@@ -7,7 +7,9 @@ import android.database.SQLException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -42,6 +44,28 @@ public class MainActivity extends ToolbarActivity {
     EditText edit;
 
     @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        boolean result = super.onCreateOptionsMenu(menu);
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setQueryHint("Search for drink");
+        //Filter when changing text in searchview
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getNameFilter().filter(newText);
+                return false;
+            }
+        });
+        return result;
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -64,27 +88,6 @@ public class MainActivity extends ToolbarActivity {
         myDb = new DatabaseHelper(this, this);
 
         populate();
-
-        edit = (EditText) findViewById(R.id.drinkFilterText);
-        edit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getNameFilter().filter(s);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-
-
     }
 
     public void populate() {
