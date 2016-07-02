@@ -44,8 +44,12 @@ public class ToolbarActivity extends AppCompatActivity {
 
         switch(id) {
             case R.id.action_settings:
-                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(intent);
+                Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+            case R.id.action_home:
+                Intent homeIntent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(homeIntent);
                 return true;
         }
 

@@ -71,6 +71,10 @@ public class SettingsActivity extends PreferenceActivity {
                     NavUtils.navigateUpTo(this, upIntent);
                 }
                 return true;
+            case R.id.action_home:
+                Intent homeIntent = new Intent(this, MainActivity.class);
+                startActivity(homeIntent);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
