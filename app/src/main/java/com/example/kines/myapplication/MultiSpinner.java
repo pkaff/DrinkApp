@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -21,9 +20,7 @@ public class MultiSpinner extends Spinner implements
     private MultiSpinnerListener listener;
     private SearchableAdapter adapter;
 
-    public MultiSpinner(Context context) {
-        super(context);
-    }
+    public MultiSpinner(Context context) { super(context); }
 
     public MultiSpinner(Context arg0, AttributeSet arg1) {
         super(arg0, arg1);
@@ -45,7 +42,7 @@ public class MultiSpinner extends Spinner implements
     public void onCancel(DialogInterface dialog) {
         //Filter according to selections
         ArrayAdapter<String> a = new ArrayAdapter<String>(getContext(),
-                R.layout.spinner_layout,
+                R.layout.spinner_item_layout,
                 new String[] { defaultText });
         setAdapter(a);
         listener.onItemsSelected(selected);
@@ -76,6 +73,24 @@ public class MultiSpinner extends Spinner implements
                         dialog.cancel();
                     }
                 });
+        builder.setNegativeButton(R.string.reset, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                for (int i = 0; i < selected.length; ++i) {
+                    selected[i] = false;
+                }
+                dialog.cancel();
+            }
+        });
+        builder.setNeutralButton(R.string.selectAll, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                for (int i = 0; i < selected.length; ++i) {
+                    selected[i] = true;
+                }
+                dialog.cancel();
+            }
+        });
         builder.setOnCancelListener(this);
         builder.show();
         return true;
@@ -98,11 +113,11 @@ public class MultiSpinner extends Spinner implements
 
         // all text on the spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                R.layout.spinner_layout, new String[] { allText });
+                R.layout.spinner_item_layout, new String[] { allText });
         setAdapter(adapter);
     }
 
     public interface MultiSpinnerListener {
-        public void onItemsSelected(boolean[] selected);
+        void onItemsSelected(boolean[] selected);
     }
 }
