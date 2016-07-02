@@ -84,6 +84,9 @@ public class MainActivity extends ToolbarActivity {
         setContentView(R.layout.content_main);
         setToolbar();
 
+        //Setting default values to settings
+        PreferenceManager.setDefaultValues(this, R.xml.fragment_settings, false);
+
         //Database stuff
         myDb = new DatabaseHelper(this, this);
 
