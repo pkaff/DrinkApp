@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kines.myapplication.data.SyncDatabaseTask;
 
@@ -41,7 +42,6 @@ public class MainActivity extends ToolbarActivity {
     Set<Ingredient> ingredientSet = new TreeSet<Ingredient>();
     SearchableAdapter adapter;
     ListView lv;
-    EditText edit;
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
@@ -124,6 +124,16 @@ public class MainActivity extends ToolbarActivity {
 
         MultiSpinner multiSpinner = (MultiSpinner) findViewById(R.id.ingredientSelector);
         multiSpinner.setItems(ingredientSet, "Ingredients filtering", new MSL(), adapter);
+        multiSpinner.setLongClickable(true);
+        multiSpinner.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(v.getContext());
+                String hint = prefs.getString("filteringModePref", "No mode");
+                Toast.makeText(v.getContext(), hint, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
     }
 
     public class MSL implements MultiSpinner.MultiSpinnerListener{

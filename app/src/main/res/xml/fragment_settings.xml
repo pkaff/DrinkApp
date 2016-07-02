@@ -12,7 +12,7 @@
         <ListPreference
             android:key="filteringModePref"
             android:title="Filtering mode"
-            android:defaultValue="1"
+            android:defaultValue="And mode"
             android:entries="@array/filter_mode_text"
             android:entryValues="@array/filter_mode_values"/>
 
