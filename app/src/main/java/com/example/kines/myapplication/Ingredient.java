@@ -3,6 +3,8 @@ package com.example.kines.myapplication;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import java.text.DecimalFormat;
 
 /**
@@ -77,5 +79,9 @@ public class Ingredient implements Parcelable, Comparable {
     @Override
     public int compareTo(Object another) {
         return name.compareTo(((Ingredient)another).name);
+    }
+
+    public String getFormattedName() {
+        return WordUtils.capitalize(getName());
     }
 }

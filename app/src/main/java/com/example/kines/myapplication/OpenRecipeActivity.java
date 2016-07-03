@@ -28,14 +28,14 @@ public class OpenRecipeActivity extends ToolbarActivity {
         TextView rGlass = (TextView) findViewById(R.id.glasType);
         TextView rIng = (TextView) findViewById(R.id.recipeIngredients);
         TextView rInstr = (TextView) findViewById(R.id.recipeInstructions);
-        rName.setText(d.getName());
+        rName.setText(d.getFormattedName());
         rGlass.setText("Glass: " + d.getGlass());
         String ingredients = "";
         for (Ingredient i : d.getIngredients()) {
             if (i.getSize() != 0) {
                 ingredients += i.getFormattedSize() + " ";
             }
-            ingredients += i.getName() + "\n";
+            ingredients += i.getFormattedName() + "\n";
         }
         rIng.setText(ingredients);
         rInstr.setText(d.getInstructions());

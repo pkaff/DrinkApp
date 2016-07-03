@@ -91,7 +91,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void queryAllDrinks(List<Drink> drinkList, Set<Ingredient> ingredients) throws SQLException {
+    public void populateDrinks(List<Drink> drinkList, Set<Ingredient> ingredients) throws SQLException {
 
         // fetch all drinks
         Cursor cursor = myDataBase.rawQuery("select id, name, glass, instructions from drink", null);

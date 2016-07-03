@@ -2,24 +2,15 @@ package com.example.kines.myapplication;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.SQLException;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -28,7 +19,6 @@ import android.widget.Toast;
 
 import com.example.kines.myapplication.data.SyncDatabaseTask;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -94,7 +84,7 @@ public class MainActivity extends ToolbarActivity {
     }
 
     public void populate() {
-        myDb.queryAllDrinks(drinkList, ingredientSet);
+        myDb.populateDrinks(drinkList, ingredientSet);
         Collections.sort(drinkList); //Sort by name
 
         adapter = new SearchableAdapter(MainActivity.this, drinkList);

@@ -72,7 +72,7 @@ public class SearchableAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.text.setText(filteredData.get(position).getName());
+        holder.text.setText(filteredData.get(position).getFormattedName());
         holder.text.setInputType(InputType.TYPE_NULL);
         holder.text.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

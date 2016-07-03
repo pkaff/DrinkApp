@@ -5,6 +5,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +41,7 @@ public class Drink implements Parcelable, Comparable<Drink>{
 
     public boolean containsSomeOf(List<String> ingredientNames) {
         for (Ingredient i : ingredients) {
-            if (ingredientNames.contains(i.getName().toLowerCase())) {
+            if (ingredientNames.contains(i.getName())) {
                 return true;
             }
         }
@@ -50,7 +52,7 @@ public class Drink implements Parcelable, Comparable<Drink>{
         for (String s : ingredientNames) {
             boolean contained = false;
             for (Ingredient i : ingredients) {
-                if (i.getName().toLowerCase().equals(s)) {
+                if (i.getName().equals(s)) {
                     contained = true;
                     break;
                 }
@@ -64,7 +66,7 @@ public class Drink implements Parcelable, Comparable<Drink>{
 
     public boolean canBeMadeWith(List<String> ingredientNames) {
         for (Ingredient i : ingredients) {
-            if (!ingredientNames.contains(i.getName().toLowerCase())) {
+            if (!ingredientNames.contains(i.getName())) {
                 return false;
             }
         }
@@ -81,8 +83,12 @@ public class Drink implements Parcelable, Comparable<Drink>{
         return name;
     }
 
+    public String getFormattedName() {
+        return WordUtils.capitalize(name);
+    }
+
     public String getGlass() {
-        return glass;
+        return WordUtils.capitalize(glass);
     }
 
     public boolean contains(String ingredient) {

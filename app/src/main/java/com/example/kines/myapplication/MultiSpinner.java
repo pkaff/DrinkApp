@@ -100,7 +100,7 @@ public class MultiSpinner extends Spinner implements
                          MultiSpinnerListener listener, SearchableAdapter a) {
         this.ingredients = new ArrayList<String>();
         for (Ingredient i : items) {
-            ingredients.add(i.getName());
+            ingredients.add(i.getFormattedName());
         }
         this.defaultText = allText;
         this.listener = listener;
