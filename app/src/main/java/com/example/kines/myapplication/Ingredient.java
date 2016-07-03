@@ -3,6 +3,8 @@ package com.example.kines.myapplication;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by Kines on 2016-04-18.
  */
@@ -14,6 +16,7 @@ public class Ingredient implements Parcelable, Comparable {
     protected Ingredient(Parcel p) {
         name = p.readString();
         size = p.readDouble();
+        unit = p.readString();
     }
     public Ingredient(String name, double size, String unit) {
         this.name = name;
@@ -27,6 +30,11 @@ public class Ingredient implements Parcelable, Comparable {
 
     public double getSize() {
         return size;
+    }
+
+    public String getFormattedSize() {
+        DecimalFormat df = new DecimalFormat("###.#");
+        return df.format(size) + " " + unit;
     }
 
     public boolean is(String ingredient) {
@@ -51,6 +59,7 @@ public class Ingredient implements Parcelable, Comparable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeDouble(size);
+        dest.writeString(unit);
     }
 
     public static final Parcelable.Creator<Ingredient> CREATOR = new Parcelable.Creator<Ingredient>() {

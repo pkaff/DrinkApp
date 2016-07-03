@@ -33,7 +33,7 @@ public class OpenRecipeActivity extends ToolbarActivity {
         String ingredients = "";
         for (Ingredient i : d.getIngredients()) {
             if (i.getSize() != 0) {
-                ingredients += i.getSize() + " ";
+                ingredients += i.getFormattedSize() + " ";
             }
             ingredients += i.getName() + "\n";
         }
