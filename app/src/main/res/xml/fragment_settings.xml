@@ -7,11 +7,11 @@
     android:layout_width="match_parent">
 
     <PreferenceCategory
-        android:title="Filtering mode">
+        android:title="@string/filterModePrefTitle">
 
         <ListPreference
-            android:key="filteringModePref"
-            android:title="Filtering mode"
+            android:key="@string/filterModePrefKey"
+            android:title="@string/filterModePrefTitle"
             android:defaultValue="And mode"
             android:entries="@array/filter_mode_text"
             android:entryValues="@array/filter_mode_values"/>

@@ -22,14 +22,14 @@ public class OpenRecipeActivity extends ToolbarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
-        Drink d = (Drink) intent.getParcelableExtra("ListViewClick");
+        Drink d = (Drink) intent.getParcelableExtra(getString(R.string.mainToOpenRecipeActivityIntent));
 
         TextView rName = (TextView) findViewById(R.id.recipeName);
         TextView rGlass = (TextView) findViewById(R.id.glasType);
         TextView rIng = (TextView) findViewById(R.id.recipeIngredients);
         TextView rInstr = (TextView) findViewById(R.id.recipeInstructions);
         rName.setText(d.getFormattedName());
-        rGlass.setText("Glass: " + d.getGlass());
+        rGlass.setText(getString(R.string.recipeGlassConstant) + d.getGlass());
         String ingredients = "";
         for (Ingredient i : d.getIngredients()) {
             if (i.getSize() != 0) {

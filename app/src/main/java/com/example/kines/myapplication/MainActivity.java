@@ -38,7 +38,7 @@ public class MainActivity extends ToolbarActivity {
         boolean result = super.onCreateOptionsMenu(menu);
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setQueryHint("Search for drink");
+        searchView.setQueryHint(getString(R.string.searchViewHint));
         //Filter when changing text in searchview
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -106,14 +106,14 @@ public class MainActivity extends ToolbarActivity {
                     ((TextView)(((RelativeLayout)(view.getParent())).getChildAt(0))).getText().toString();
 
                 }
-                intent.putExtra("ListViewClick", msg);
+                intent.putExtra(getString(R.string.mainToOpenRecipeActivityIntent), msg);
                 startActivity(intent);
             }
         });
         adapter.notifyDataSetChanged();
 
         MultiSpinner multiSpinner = (MultiSpinner) findViewById(R.id.ingredientSelector);
-        multiSpinner.setItems(ingredientSet, "Ingredients filtering", new MultiSpinner.MultiSpinnerListener() {
+        multiSpinner.setItems(ingredientSet, getString(R.string.multiSpinnerTitle), new MultiSpinner.MultiSpinnerListener() {
             @Override
             public void onItemsSelected(boolean[] selected) {
 
@@ -124,7 +124,7 @@ public class MainActivity extends ToolbarActivity {
             @Override
             public boolean onLongClick(View v) {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(v.getContext());
-                String hint = prefs.getString("filteringModePref", "No mode");
+                String hint = prefs.getString(getString(R.string.filterModePrefKey), getString(R.string.multiSpinnerHintDefault));
                 Toast.makeText(v.getContext(), hint, Toast.LENGTH_SHORT).show();
                 return false;
             }

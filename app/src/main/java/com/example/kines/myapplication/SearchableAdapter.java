@@ -81,7 +81,7 @@ public class SearchableAdapter extends BaseAdapter {
                     if (d.getName().equals(drinkName)) {
                         Intent intent = new Intent(v.getContext(), OpenRecipeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra("ListViewClick", d);
+                        intent.putExtra(context.getString(R.string.mainToOpenRecipeActivityIntent), d);
                         v.getContext().startActivity(intent);
                     }
                 }
@@ -127,7 +127,7 @@ public class SearchableAdapter extends BaseAdapter {
             }
 
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-            String mode = pref.getString("filteringModePref", "No mode");
+            String mode = pref.getString(context.getString(R.string.filterModePrefKey), context.getString(R.string.multiSpinnerHintDefault));
             String errorMessage;
             switch (mode) {
                 case "And mode":
