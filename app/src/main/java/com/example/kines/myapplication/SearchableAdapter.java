@@ -76,7 +76,7 @@ public class SearchableAdapter extends BaseAdapter {
         holder.text.setInputType(InputType.TYPE_NULL);
         holder.text.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String drinkName = ((TextView) v).getText().toString();
+                String drinkName = ((TextView) v).getText().toString().toLowerCase();
                 for (Drink d : filteredData) {
                     if (d.getName().equals(drinkName)) {
                         Intent intent = new Intent(v.getContext(), OpenRecipeActivity.class);
