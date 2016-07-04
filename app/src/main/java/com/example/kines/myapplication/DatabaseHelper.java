@@ -28,27 +28,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private final Context myContext;
 
     //The Android's default system path of your application database.
-    private static String DB_PATH = "/data/data/com.example.kines.myapplication/databases/";
-    private static String DB_NAME = "Drink_Recipes.db";
+    private static final String DB_PATH = "/data/data/com.example.kines.myapplication/databases/";
+    private static final String DB_NAME = "Drink_Recipes.db";
 
-    private static String TABLE_DRINK_CREATE = "CREATE TABLE IF NOT EXISTS `drink` (\n" +
+    private static final String TABLE_DRINK_CREATE = "CREATE TABLE IF NOT EXISTS `drink` (\n" +
             "  `id` int(11) NOT NULL,\n" +
             "  `name` text NOT NULL,\n" +
             "  `glass` text NOT NULL,\n" +
             "  `instructions` text NOT NULL\n" +
             ")";
 
-    private static String TABLE_DRINK_INGREDIENT_CREATE = "CREATE TABLE IF NOT EXISTS `drink_ingredient` (\n" +
+    private static final String TABLE_DRINK_INGREDIENT_CREATE = "CREATE TABLE IF NOT EXISTS `drink_ingredient` (\n" +
             "  `drink_id` int(11) NOT NULL,\n" +
             "  `ingredient_id` int(11) NOT NULL,\n" +
             "  `size` double NOT NULL,\n" +
             "  `unit` varchar(20) NOT NULL\n" +
             ")";
 
-    private static String TABLE_INGREDIENT_CREATE = "CREATE TABLE IF NOT EXISTS `ingredient` (\n" +
+    private static final String TABLE_INGREDIENT_CREATE = "CREATE TABLE IF NOT EXISTS `ingredient` (\n" +
             "  `id` int(11) NOT NULL,\n" +
             "  `name` text NOT NULL\n" +
             ")";
+
+    private static final String TABLE_DRINK_DROP = "DROP TABLE IF EXISTS drink";
+    private static final String TABLE_DRINK_INGREDIENT_DROP = "DROP TABLE IF EXISTS drink_ingredient";
+    private static final String TABLE_INGREDIENT_DROP = "DROP TABLE IF EXISTS ingredient";
 
     private MainActivity activity;
 
@@ -84,9 +88,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS drink");
-        db.execSQL("DROP TABLE IF EXISTS drink_ingredient");
-        db.execSQL("DROP TABLE IF EXISTS ingredient");
+        db.execSQL(TABLE_DRINK_DROP);
+        db.execSQL(TABLE_DRINK_INGREDIENT_DROP);
+        db.execSQL(TABLE_INGREDIENT_DROP);
 
         onCreate(db);
     }
@@ -174,7 +178,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 double size = JSONIngredient.getDouble("size");
 
                 // add ingredient to db
-                Cursor checkIngredient = myDataBase.rawQuery("SELECT * FROM ingredient WHERE id = "+ingredientId,null);
+                Cursor checkIngredient = myDataBase.rawQuery("SELECT * FROM ingredient WHERE id = " + ingredientId,null);
 
                 if(checkIngredient.getCount() == 0) {
                     values = new ContentValues();
