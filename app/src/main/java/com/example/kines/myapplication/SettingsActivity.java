@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v7.app.AppCompatDelegate;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class SettingsActivity extends PreferenceActivity {
         getDelegate().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         initToolbar();
+        ((TextView)findViewById(R.id.toolbarText)).setText(R.string.settingsToolbarText);
     }
 
     @Override

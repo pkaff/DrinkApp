@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.view.View;
@@ -91,6 +92,8 @@ public class MainActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
         setToolbar();
+        //Set toolbar text
+        ((TextView)findViewById(R.id.toolbarText)).setText(R.string.app_name);
 
         //Setting default values to settings
         PreferenceManager.setDefaultValues(this, R.xml.fragment_settings, false);
@@ -98,7 +101,20 @@ public class MainActivity extends ToolbarActivity {
         //Database stuff
         myDb = new DatabaseHelper(this, this);
 
+        //Dependent of the information loaded in database
         populate();
+
+        //Add drink button
+        FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.addBtn);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), AddDrinkActivity.class);
+                String msg = "";
+                intent.putExtra(getString(R.string.mainToAddDrinkActivity), msg);
+                startActivity(intent);
+            }
+        });
     }
 
     public void populate() {
@@ -107,7 +123,7 @@ public class MainActivity extends ToolbarActivity {
 
         adapter = new SearchableAdapter(MainActivity.this, drinkList);
 
-        //Drink listview
+        //The list of drinks
         instantiateListView();
 
         adapter.notifyDataSetChanged();
@@ -157,6 +173,7 @@ public class MainActivity extends ToolbarActivity {
                 return true;
             }
         });
+
     }
 
     @Override

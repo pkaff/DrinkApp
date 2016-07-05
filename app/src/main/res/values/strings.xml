@@ -12,6 +12,11 @@
 
     <string name="firstOpen">firstTimeOpened</string>
 
+    <!--Toolbars-->
+    <string name="addDrinkToolbarText">Add drink</string>
+    <string name="settingsToolbarText">Settings</string>
+    <string name="openRecipeToolbarText">Recipe</string>
+
     <!--Buttons-->
     <string name="reset">Reset</string>
     <string name="selectAll">Select all</string>
@@ -23,6 +28,9 @@
     <string name="noInternetConnection">No internet connection</string>
 
     <!--About dialog-->
+    <string name="addDrinkHint_name">Drink name</string>
+    <string name="addDrinkHint_recipe">Instructions</string>
+    <string name="addDrinkHint_glass">Select glass type</string>
     <string name="about_title">Daniels Drinks</string>
     <string name="about_message">Thank you for using Daniels Drinks!</string>
     <string name="about_developers">Developed by Daniel Odenbrand and Joel Yourstone</string>
@@ -37,6 +45,7 @@
 
     <!--Activities intent-->
     <string name="mainToOpenRecipeActivityIntent">ListViewClick</string>
+    <string name="mainToAddDrinkActivity">AddButtonClick</string>
 
     <!--Recipe string constants-->
     <string name="recipeGlassConstant">Glass: </string>

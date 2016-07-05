@@ -12,7 +12,7 @@ public class OpenRecipeActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_recipe);
         setToolbar();
-
+        ((TextView)findViewById(R.id.toolbarText)).setText(R.string.openRecipeToolbarText);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
