@@ -29,8 +29,11 @@
 
     <!--About dialog-->
     <string name="addDrinkHint_name">Drink name</string>
-    <string name="addDrinkHint_recipe">Instructions</string>
+    <string name="addDrinkHint_recipe">Enter instructions...</string>
     <string name="addDrinkHint_glass">Select glass type</string>
+    <string name="addDrinkHint_ingredient">Add ingredient</string>
+    <string name="addDrinkHint_confirmBtn">Add drink</string>
+    <string name="addDrinkHint_cancelBtn">Cancel</string>
     <string name="about_title">Daniels Drinks</string>
     <string name="about_message">Thank you for using Daniels Drinks!</string>
     <string name="about_developers">Developed by Daniel Odenbrand and Joel Yourstone</string>

@@ -12,48 +12,105 @@
 
     <include layout="@layout/toolbar" />
 
-    <EditText
-        android:id="@+id/addDrink_name"
+    <ScrollView
+        android:id="@+id/addDrink_scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:textAlignment="center"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:hint="@string/addDrinkHint_name"
-        android:inputType="text"/>
+        android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/addDrink_glass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/addDrink_name"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp">
-        <TextView
-            android:id="@+id/addDrink_glass_text"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="@string/addDrinkHint_glass"/>
-        <Spinner
-            android:id="@+id/addDrink_glass_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/addDrink_glass_text">
-        </Spinner>
-    </RelativeLayout>
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/addDrink_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:hint="@string/addDrinkHint_name"
+                android:inputType="text"/>
+
+            <RelativeLayout
+                android:id="@+id/addDrink_glass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/addDrink_name"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp">
+                <!--Make into spinner with hint instead-->
+                <TextView
+                    android:id="@+id/addDrink_glass_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="@string/addDrinkHint_glass"/>
+                <Spinner
+                    android:id="@+id/addDrink_glass_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/addDrink_glass_text">
+                </Spinner>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/addDrink_ingredient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/addDrink_glass"
+                android:paddingLeft="40dp"
+                android:paddingRight="40dp">
+
+                <Button
+                    android:id="@+id/addDrink_addIngredientBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/addDrinkHint_ingredient"/>
+
+                <ListView
+                    android:id="@+id/addDrink_addIngredientList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"></ListView>
+
+            </RelativeLayout>
 
 
-    <EditText
-        android:id="@+id/addDrink_recipe"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/addDrink_glass"
-        android:textAlignment="center"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:hint="@string/addDrinkHint_recipe"
-        android:inputType="text"/>
+            <EditText
+                android:id="@+id/addDrink_instructions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/addDrink_ingredient"
+                android:textAlignment="center"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:hint="@string/addDrinkHint_recipe"
+                android:inputType="text"/>
+
+            <RelativeLayout
+                android:id="@+id/addDrink_buttons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/addDrink_instructions"
+                android:paddingLeft="40dp"
+                android:paddingRight="40dp">
+                <Button
+                    android:id="@+id/addDrink_cancelBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/addDrinkHint_cancelBtn"/>
+
+                <Button
+                    android:id="@+id/addDrink_confirmBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/addDrinkHint_confirmBtn"/>
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>
