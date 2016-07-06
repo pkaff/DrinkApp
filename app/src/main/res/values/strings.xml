@@ -34,10 +34,16 @@
     <string name="addDrinkHint_ingredient">Add ingredient</string>
     <string name="addDrinkHint_confirmBtn">Add drink</string>
     <string name="addDrinkHint_cancelBtn">Cancel</string>
+    <string name="addDrink_addIngredientPopup_title">Add ingredient</string>
+    <string name="addDrink_addIngredientHint_size">Size</string>
+    <string name="addDrink_addIngredientHint_unit">Unit</string>
+    <string name="addDrink_addIngredientHint_spinnerText">Select ingredient</string>
     <string name="about_title">Daniels Drinks</string>
     <string name="about_message">Thank you for using Daniels Drinks!</string>
     <string name="about_developers">Developed by Daniel Odenbrand and Joel Yourstone</string>
     <string name="about_version">Current version: </string>
+    <string name="addDrink_addIngredient_cancelBtn">Cancel</string>
+    <string name="addDrink_addIngredient_confirmBtn">Add ingredient</string>
 
     <!--Filtering setting-->
     <string name="filterModePrefTitle">Filtering mode</string>

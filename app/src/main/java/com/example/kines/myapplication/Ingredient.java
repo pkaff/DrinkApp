@@ -84,4 +84,9 @@ public class Ingredient implements Parcelable, Comparable {
     public String getFormattedName() {
         return WordUtils.capitalize(getName());
     }
+
+    @Override
+    public String toString() {
+        return size + " " + unit + " " + name;
+    }
 }
