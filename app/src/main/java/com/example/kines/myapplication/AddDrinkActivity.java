@@ -39,8 +39,8 @@ public class AddDrinkActivity extends ToolbarActivity {
 
         Spinner ingredientSelector = (Spinner) findViewById(R.id.addDrink_addIngredient_spinner);
         String[] ingredientArray = new String[] {"Ing1", "Ing2", "Ing3"}; //should not be hard-coded - just testing
-        ArrayAdapter<String> ingredientAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ingredientArray);
-        ingredientSelector.setAdapter(ingredientAdapter);
+        ArrayAdapter<String> allIngredientAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ingredientArray);
+        ingredientSelector.setAdapter(allIngredientAdapter);
         Button addIngredientBtn = (Button)findViewById(R.id.addDrink_addIngredientBtn);
         addIngredientBtn.setOnClickListener(new View.OnClickListener() {
             @Override
