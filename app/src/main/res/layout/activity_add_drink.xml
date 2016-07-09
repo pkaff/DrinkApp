@@ -19,7 +19,9 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp">
 
             <EditText
                 android:id="@+id/addDrink_name"
@@ -57,9 +59,7 @@
                 android:id="@+id/addDrink_ingredient"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/addDrink_glass"
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp">
+                android:layout_below="@id/addDrink_glass">
 
                 <Button
                     android:id="@+id/addDrink_addIngredientBtn"
@@ -92,9 +92,7 @@
                 android:id="@+id/addDrink_buttons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/addDrink_instructions"
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp">
+                android:layout_below="@id/addDrink_instructions">
                 <Button
                     android:id="@+id/addDrink_cancelBtn"
                     android:layout_width="wrap_content"

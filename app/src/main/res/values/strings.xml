@@ -20,6 +20,10 @@
     <!--Buttons-->
     <string name="reset">Reset</string>
     <string name="selectAll">Select all</string>
+    <string name="addDrink_addIngredient_cancelBtn">Cancel</string>
+    <string name="addDrink_addIngredient_confirmBtn">Add ingredient</string>
+    <string name="addDrinkHint_confirmBtn">Add drink</string>
+    <string name="addDrinkHint_cancelBtn">Cancel</string>
 
     <!--Views hints and names-->
     <string name="multiSpinnerHintDefault">No mode</string>
@@ -32,8 +36,6 @@
     <string name="addDrinkHint_recipe">Enter instructions...</string>
     <string name="addDrinkHint_glass">Select glass type</string>
     <string name="addDrinkHint_ingredient">Add ingredient</string>
-    <string name="addDrinkHint_confirmBtn">Add drink</string>
-    <string name="addDrinkHint_cancelBtn">Cancel</string>
     <string name="addDrink_addIngredientPopup_title">Add ingredient</string>
     <string name="addDrink_addIngredientHint_size">Size</string>
     <string name="addDrink_addIngredientHint_unit">Unit</string>
@@ -42,8 +44,11 @@
     <string name="about_message">Thank you for using Daniels Drinks!</string>
     <string name="about_developers">Developed by Daniel Odenbrand and Joel Yourstone</string>
     <string name="about_version">Current version: </string>
-    <string name="addDrink_addIngredient_cancelBtn">Cancel</string>
-    <string name="addDrink_addIngredient_confirmBtn">Add ingredient</string>
+
+    <!--Toasts-->
+    <string name="addDrink_addIngredient_error_incompleteForm">You have not filled out all fields</string>
+    <string name="addDrink_addIngredient_success_ingAdded">Ingredient added to drink</string>
+    <string name="addDrink_addIngredient_error_size">Size is not a double</string>
 
     <!--Filtering setting-->
     <string name="filterModePrefTitle">Filtering mode</string>
