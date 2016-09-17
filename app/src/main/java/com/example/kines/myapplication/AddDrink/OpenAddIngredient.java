@@ -34,7 +34,7 @@ public class OpenAddIngredient implements View.OnClickListener {
         builder.setView(inflatedView);
         final Spinner ingredientSelector = (Spinner) inflatedView.findViewById(R.id.addDrink_addIngredient_spinner);
         ingredientSelector.setAdapter(allIngredientAdapter);
-        builder.setPositiveButton(R.string.addDrink_addIngredient_confirmBtn, new ConfirmAddIngredient(activity, view, ingredientSelector, ingredientsToAdd, allIngredientAdapter));
+        builder.setPositiveButton(R.string.addDrink_addIngredient_confirmBtn, new ConfirmAddIngredient(activity, inflatedView, ingredientSelector, ingredientsToAdd, allIngredientAdapter));
         builder.setNegativeButton(R.string.addDrink_addIngredient_cancelBtn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

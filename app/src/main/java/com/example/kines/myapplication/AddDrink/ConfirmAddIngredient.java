@@ -34,8 +34,8 @@ public class ConfirmAddIngredient implements DialogInterface.OnClickListener {
     public void onClick(DialogInterface dialog, int which) {
         //Check that all fields are filled in and save in ingredientsToAdd, then close dialog
         Toast t = Toast.makeText(view.getContext(), "", Toast.LENGTH_SHORT);
-        TextView addDrink_ingredient_size = (TextView) activity.findViewById(R.id.addDrink_addIngredient_size);
-        TextView addDrink_ingredient_unit = (TextView) activity.findViewById(R.id.addDrink_addIngredient_unit);
+        TextView addDrink_ingredient_size = (TextView) view.findViewById(R.id.addDrink_addIngredient_size);
+        TextView addDrink_ingredient_unit = (TextView) view.findViewById(R.id.addDrink_addIngredient_unit);
         if (textViewIsEmpty(addDrink_ingredient_size) || textViewIsEmpty(addDrink_ingredient_unit) || ingredientSelector.getSelectedItem() == null) {
             //Form not filled out
             t = Toast.makeText(view.getContext(), R.string.addDrink_addIngredient_error_incompleteForm, Toast.LENGTH_SHORT);
