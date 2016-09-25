@@ -19,6 +19,8 @@ import android.widget.Toast;
 import com.example.kines.myapplication.AddDrink.AddIngredientListener;
 import com.example.kines.myapplication.AddDrink.OpenAddIngredient;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +63,19 @@ public class AddDrinkActivity extends ToolbarActivity {
         String drinkName = ((TextView)findViewById(R.id.addDrink_name)).getText().toString();
         String glassType = ((Spinner)findViewById(R.id.addDrink_glass_spinner)).getSelectedItem().toString();
         String instructions = ((TextView)findViewById(R.id.addDrink_instructions)).getText().toString();
+
+
+        JSONObject drink = new JSONObject();
+        drink.put
+
+
+
+
+
+
+
+
+
         return true;
     }
 

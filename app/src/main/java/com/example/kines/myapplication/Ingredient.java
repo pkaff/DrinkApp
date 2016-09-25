@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import org.apache.commons.lang3.text.WordUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 
@@ -88,5 +90,18 @@ public class Ingredient implements Parcelable, Comparable {
     @Override
     public String toString() {
         return size + " " + unit + " " + name;
+    }
+
+    public JSONObject toJSON() {
+        JSONObject o = new JSONObject();
+        try {
+            o.put("name", name);
+            o.put("size", size);
+            o.put("unit", unit);
+            return o;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

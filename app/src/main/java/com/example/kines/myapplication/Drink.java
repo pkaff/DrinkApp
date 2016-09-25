@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import org.apache.commons.lang3.text.WordUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -155,5 +157,21 @@ public class Drink implements Parcelable, Comparable<Drink>{
 
     public void addIngredients(ArrayList<Ingredient> ingredientsList) {
         this.ingredients.addAll(ingredientsList);
+    }
+
+    public JSONObject toJSON() {
+        JSONObject o = new JSONObject();
+        try {
+            o.put("name", name);
+            o.put("glass", glass);
+            o.put("instructions", instructions);
+            for (Ingredient i : ingredients) {
+                o.put("ingredient", i.toJSON());
+            }
+            return o;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
