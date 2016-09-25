@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.example.kines.myapplication.data.SyncDatabaseTask;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -85,6 +87,13 @@ public class MainActivity extends ToolbarActivity {
             edit.commit();
             new SyncDatabaseTask(this, drinkList, ingredientSet, myDb).execute();
         }
+        Intent intent = getIntent();
+        Drink drink = intent.getParcelableExtra(getString(R.string.addDrinkToMainConfirm));
+        try {
+            myDb.addDrinkToLocalDB(drink.toJSON());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -106,6 +115,7 @@ public class MainActivity extends ToolbarActivity {
 
         //Add drink button
         FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.addBtn);
+        //needs to send ingredient and glasses info
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

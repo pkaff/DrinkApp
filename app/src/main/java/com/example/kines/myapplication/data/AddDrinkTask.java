@@ -18,7 +18,7 @@ import java.net.URL;
  * Created by Superdator on 2016-09-25.
  */
 
-public class AddDrinkTask extends AsyncTask<String, String, String> {
+/*public class AddDrinkTask extends AsyncTask<String, String, String> {
 
         public AddDrinkTask(){
             //set context variables if required
@@ -68,11 +68,6 @@ public class AddDrinkTask extends AsyncTask<String, String, String> {
         protected void onPostExecute(String result) {
             //Update the UI
         }
-        Older Answer
-
-        Note: This solution is outdated. It only works on Android devices up to 5.1. Android 6.0 and above do not include the Apache http client used in this answer.
-
-                Http Client from Apache Commons is the way to go. It is already included in android. Here's a simple example of how to do HTTP Post using it.
 
         public void postData() {
             // Create a new HttpClient and Post Header
@@ -94,4 +89,6 @@ public class AddDrinkTask extends AsyncTask<String, String, String> {
             } catch (IOException e) {
                 // TODO Auto-generated catch block
             }
+        }
 }
+*/

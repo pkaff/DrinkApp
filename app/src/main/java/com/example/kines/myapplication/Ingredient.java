@@ -92,16 +92,11 @@ public class Ingredient implements Parcelable, Comparable {
         return size + " " + unit + " " + name;
     }
 
-    public JSONObject toJSON() {
+    public JSONObject toJSON() throws JSONException {
         JSONObject o = new JSONObject();
-        try {
-            o.put("name", name);
-            o.put("size", size);
-            o.put("unit", unit);
-            return o;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
+        o.put("name", name);
+        o.put("size", size);
+        o.put("unit", unit);
+        return o;
     }
 }

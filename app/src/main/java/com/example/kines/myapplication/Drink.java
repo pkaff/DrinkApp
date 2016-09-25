@@ -22,7 +22,6 @@ public class Drink implements Parcelable, Comparable<Drink>{
     private List<Ingredient> ingredients;
     private String instructions;
     private int score;
-    private int dbID;
 
     protected Drink(Parcel p) {
         name = p.readString();
@@ -33,9 +32,13 @@ public class Drink implements Parcelable, Comparable<Drink>{
         instructions = p.readString();
     }
 
-    public Drink(int id, String name, String glass, String instruction) {
+    public Drink(String name, String glass, String instructions, List<Ingredient> ingredients) {
+        this(name, glass, instructions);
+        addIngredients(ingredients);
+    }
+
+    public Drink(String name, String glass, String instruction) {
         ingredients = new ArrayList<Ingredient>();
-        this.dbID = id;
         this.name = name;
         this.glass = glass;
         this.instructions = instruction;
@@ -155,23 +158,18 @@ public class Drink implements Parcelable, Comparable<Drink>{
         }
     };
 
-    public void addIngredients(ArrayList<Ingredient> ingredientsList) {
+    public void addIngredients(List<Ingredient> ingredientsList) {
         this.ingredients.addAll(ingredientsList);
     }
 
-    public JSONObject toJSON() {
+    public JSONObject toJSON() throws JSONException{
         JSONObject o = new JSONObject();
-        try {
-            o.put("name", name);
-            o.put("glass", glass);
-            o.put("instructions", instructions);
-            for (Ingredient i : ingredients) {
-                o.put("ingredient", i.toJSON());
-            }
-            return o;
-        } catch (JSONException e) {
-            e.printStackTrace();
+        o.put("name", name);
+        o.put("glass", glass);
+        o.put("instructions", instructions);
+        for (Ingredient i : ingredients) {
+            o.put("ingredient", i.toJSON());
         }
-        return null;
+        return o;
     }
 }

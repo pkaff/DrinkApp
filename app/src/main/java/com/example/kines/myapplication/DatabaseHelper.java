@@ -115,7 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     String glass = cursor.getString(2);
                     String instructions = cursor.getString(3);
 
-                    Drink drink = new Drink(dbID, name, glass, instructions);
+                    Drink drink = new Drink(name, glass, instructions);
 
                     ArrayList<Ingredient> ingredientsList = new ArrayList<Ingredient>();
 
@@ -153,6 +153,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             }
         }
+    }
+
+    public void pushLocalDrinksToServer() {
+        //Check for local drink flag, send
+        //Or just send entire db. Don't overwrite?
+    }
+
+    public void addDrinkToLocalDB(JSONObject JSONDrink) throws JSONException {
+        onUpgrade(myDataBase, 0, 0);
+        JSONArray array = new JSONArray();
+        array.put(JSONDrink);
+        syncDrinks(array);
     }
 
     public void syncDrinks(JSONArray jsonArray) throws JSONException {
@@ -201,7 +213,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 values.put("unit", unit);
 
                 myDataBase.insert("drink_ingredient", null, values);
-
             }
         }
     }

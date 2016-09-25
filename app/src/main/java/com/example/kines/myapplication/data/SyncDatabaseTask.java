@@ -100,8 +100,6 @@ public class SyncDatabaseTask extends AsyncTask<String, String, Void>
             } finally {
                 urlConnection.disconnect();
             }
-
-
         } catch(IOException e) {
             throw new RuntimeException(e);
         }

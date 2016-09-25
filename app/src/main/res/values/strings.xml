@@ -60,6 +60,8 @@
     <!--Activities intent-->
     <string name="mainToOpenRecipeActivityIntent">ListViewClick</string>
     <string name="mainToAddDrinkActivity">AddButtonClick</string>
+    <string name="addDrinkToMainCancel">DrinkAddCanceled</string>
+    <string name="addDrinkToMainConfirm">DrinkAdded</string>
 
     <!--Recipe string constants-->
     <string name="recipeGlassConstant">Glass: </string>

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.kines.myapplication.AddDrink.AddIngredientListener;
 import com.example.kines.myapplication.AddDrink.OpenAddIngredient;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ import java.util.List;
 
 public class AddDrinkActivity extends ToolbarActivity {
     private ArrayList<Ingredient> ingredientsToAdd = new ArrayList<Ingredient>();
+    private Drink drink;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,31 +55,46 @@ public class AddDrinkActivity extends ToolbarActivity {
         ListView ingredientListView = (ListView)findViewById(R.id.addDrink_addIngredientList);
         ArrayAdapter<Ingredient> ingredientAdapter = new ArrayAdapter<Ingredient>(AddDrinkActivity.this, android.R.layout.simple_list_item_1, ingredientsToAdd);
         ingredientListView.setAdapter(ingredientAdapter);
+
+        //Confirm button
+        Button confirmDrinkBtn = (Button)findViewById(R.id.addDrink_confirmBtn);
+        confirmDrinkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                intent.putExtra(getString(R.string.addDrinkToMainConfirm), drink);
+                startActivity(intent);
+            }
+        });
+
+        //Cancel button
+        Button cancelDrinkBtn = (Button)findViewById(R.id.addDrink_confirmBtn);
+        cancelDrinkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), AddDrinkActivity.class);
+                intent.putExtra(getString(R.string.addDrinkToMainCancel), "");
+                startActivity(intent);
+            }
+        });
+
     }
 
     private boolean textViewIsEmpty(TextView v) {
         return v.getText().toString().trim().length() == 0;
     }
 
-    private boolean postDrink() {
+    private JSONObject postDrink() throws JSONException {
         //Info to send to DB
         String drinkName = ((TextView)findViewById(R.id.addDrink_name)).getText().toString();
         String glassType = ((Spinner)findViewById(R.id.addDrink_glass_spinner)).getSelectedItem().toString();
         String instructions = ((TextView)findViewById(R.id.addDrink_instructions)).getText().toString();
 
+        drink = new Drink(drinkName, glassType, instructions, ingredientsToAdd);
 
-        JSONObject drink = new JSONObject();
-        drink.put
-
-
-
-
-
-
-
-
-
-        return true;
+        JSONObject JSONDrink = new JSONObject();
+        JSONDrink.put("Drink", drink.toJSON());
+        return JSONDrink;
     }
 
 }
