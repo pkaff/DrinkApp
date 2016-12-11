@@ -74,7 +74,7 @@ public class SyncDatabaseTask extends AsyncTask<String, String, Void>
         Log.d("sync", "start in bg");
         URL url;
         try {
-             url = new URL("http://danielsdrinks.joyo.se/Drinks.php");
+             url = new URL("http://danielsdrinks.azurewebsites.net/Drinks.php");
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             try{
