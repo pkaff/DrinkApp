@@ -48,8 +48,8 @@ if(isset($_POST['drink_name'])) {
 				$result = $statement->execute();
 				$statement->close();
 				
-				echo '<pre>Drink inserted</pre>';
 			}
+			echo '<pre>Drink inserted</pre>';
 		}
 	}
 }
