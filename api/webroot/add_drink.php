@@ -1,6 +1,13 @@
 <?php
 include "connect.php";
 
+
+
+if(isset($_POST['drink_name'])) {
+	echo '<pre>';
+	print_r($_POST);
+	echo '</pre>';
+}
 ?>
 <html>
 	<head>
@@ -35,7 +42,7 @@ include "connect.php";
 			$(document).ready(function(){
 				
 				$("#jsClickMe").click(function(){
-					$(".selected_ingredients").append('<div class="ingredient"><div class="row"> <div class="col-xs-6"><input type="text" class="form-control" placeholder="Ingredient Name"> </div><div class="col-xs-2"><input type="text" class="form-control" placeholder="Qty"> </div><div class="col-xs-2"><input type="text" class="form-control" placeholder="Unit"> </div><div class="col-xs-2"><i class="fa fa-minus-square-o jsDeleteMe"></i> </div></div></div>');
+					$(".selected_ingredients").append('<div class="ingredient"><div class="row"> <div class="col-xs-6"><input type="text" class="form-control" name="ingredient_names[]" placeholder="Ingredient Name"> </div><div class="col-xs-2"><input type="text" class="form-control" name="ingredient_quantities[]" placeholder="Qty"> </div><div class="col-xs-2"><input type="text" class="form-control" name="ingredient_units[]" placeholder="Unit"> </div><div class="col-xs-2"><i class="fa fa-minus-square-o jsDeleteMe"></i> </div></div></div>');
 					
 					$(".jsDeleteMe").click(function(e, i) {
 						$(e.target).parents(".ingredient").remove();
@@ -52,8 +59,7 @@ include "connect.php";
 		<div class="container">
 			<h1>Add drink</h1>
 			
-			<form>
-				
+			<form mehtod="post">
 				<input type="text" class="form-control" name="drink_name" placeholder="Drink name">
 				<p></p><p></p>
 				<strong>Choose glass</strong>
@@ -66,18 +72,18 @@ include "connect.php";
 				
 				
 				<div class="ingredient_container">
-				<i class="fa fa-plus-square-o" id="jsClickMe"></i>
+					<i class="fa fa-plus-square-o" id="jsClickMe"></i>
 					<div class="selected_ingredients">
 						<div class="ingredient">
 							<div class="row">
 							  <div class="col-xs-6">
-								<input type="text" class="form-control" placeholder="Ingredient Name">
+								<input type="text" class="form-control" name="ingredient_names[]" placeholder="Ingredient Name">
 							  </div>
 							  <div class="col-xs-2">
-								<input type="text" class="form-control" placeholder="Qty">
+								<input type="text" class="form-control" name="ingredient_quantities[]" placeholder="Qty">
 							  </div>
 							  <div class="col-xs-2">
-								<input type="text" class="form-control" placeholder="Unit">
+								<input type="text" class="form-control" name="ingredient_units[]" placeholder="Unit">
 							  </div>
 							  <div class="col-xs-2">
 								<i class="fa fa-minus-square-o jsDeleteMe"></i>
@@ -90,7 +96,7 @@ include "connect.php";
 				
 				<p></p><p></p>
 				<strong>Description</strong>
-				<textarea name="description" class="form-control"></textarea>
+				<textarea name="drink_description" class="form-control"></textarea>
 				
 				<p></p><p></p>
 				<input type="submit" class="btn btn-lg btn-primary btn-block" value="Add!">
