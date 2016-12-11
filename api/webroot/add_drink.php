@@ -2,12 +2,12 @@
 include "connect.php";
 
 
-function isOk(str) {
-	return strlen(str) > 0;
+function isOk($str) {
+	return strlen($str) > 0;
 }
 
 if(isset($_POST['drink_name'])) {
-	var $p = $_POST;
+	$p = $_POST;
 	
 	
 	if(isOk($p['drink_name']) && isOk($p['drink_glass']) && is_array($p['ingredient_names']) && is_array($p['ingredient_quantities']) && is_array($p['ingredient_units']) && isOk($p['drink_description'])) {
@@ -52,8 +52,6 @@ if(isset($_POST['drink_name'])) {
 			}
 		}
 	}
-	
-
 }
 ?>
 <html>
