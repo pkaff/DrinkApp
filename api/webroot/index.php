@@ -19,7 +19,7 @@ if(!isset($_COOKIE['auth']) || $_COOKIE['auth'] != "345g6g4363465g") {
     <?php
 } else {
     ?>
-<a href="t5gew0y5gespm/DanielDrinks.apk">Ladda ned här</a>
+<a href="t5gew0y5gespm/DanielDrinks2.apk">Ladda ned här</a>
     <?php
 }
 
