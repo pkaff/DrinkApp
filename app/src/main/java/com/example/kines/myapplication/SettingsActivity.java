@@ -49,8 +49,12 @@ public class SettingsActivity extends PreferenceActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        boolean result = super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        menu.findItem(R.id.action_search).setVisible(false);
+        menu.findItem(R.id.action_sync).setVisible(false);
+        menu.findItem(R.id.action_settings).setVisible(false);
+        return result;
     }
 
     @Override

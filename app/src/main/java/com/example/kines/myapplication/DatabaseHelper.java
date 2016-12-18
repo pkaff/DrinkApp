@@ -96,7 +96,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void populateDrinks(List<Drink> drinkList, Set<Ingredient> ingredients) throws SQLException {
-
+        //Clear drinks and ingredients to prepare fetching new ones from the database
+        if (!drinkList.isEmpty()) {
+            drinkList.clear();
+        }
+        if (!ingredients.isEmpty()) {
+            ingredients.clear();
+        }
         // fetch all drinks
         Cursor cursor = myDataBase.rawQuery("select id, name, glass, instructions from drink", null);
 

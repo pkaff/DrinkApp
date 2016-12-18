@@ -1,7 +1,9 @@
 package com.example.kines.myapplication;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
@@ -36,6 +38,12 @@ public class MainActivity extends ToolbarActivity {
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         boolean result = super.onCreateOptionsMenu(menu);
+        menu.findItem(R.id.action_home).setVisible(false);
+        createSearchAction(menu);
+        return result;
+    }
+
+    private void createSearchAction(final Menu menu) {
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setQueryHint(getString(R.string.searchViewHint));
@@ -52,7 +60,19 @@ public class MainActivity extends ToolbarActivity {
                 return false;
             }
         });
-        return result;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch(id) {
+            case R.id.action_sync:
+                new SyncDatabaseTask(this, drinkList, ingredientSet, myDb).execute();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -89,7 +109,7 @@ public class MainActivity extends ToolbarActivity {
 
         adapter = new SearchableAdapter(MainActivity.this, drinkList);
 
-        //listview
+        //Drink listview
         lv = (ListView) findViewById(R.id.drinkListView);
         lv.setAdapter(adapter);
         lv.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
@@ -112,6 +132,7 @@ public class MainActivity extends ToolbarActivity {
         });
         adapter.notifyDataSetChanged();
 
+        //Filtering spinner
         MultiSpinner multiSpinner = (MultiSpinner) findViewById(R.id.ingredientSelector);
         multiSpinner.setItems(ingredientSet, getString(R.string.multiSpinnerTitle), new MultiSpinner.MultiSpinnerListener() {
             @Override
