@@ -27,14 +27,10 @@ public class SyncDatabaseTask extends AsyncTask<String, String, Void>
 {
     private DatabaseHelper db;
     private ProgressDialog progressDialog;
-    private List<Drink> drinkList;
-    private Set<Ingredient> ingredientSet;
     String result = "";
     private MainActivity mainActivity;
 
     public SyncDatabaseTask(MainActivity mainActivity, List<Drink> drinkList, Set<Ingredient> ingredientSet, DatabaseHelper myDb) {
-        this.drinkList = drinkList;
-        this.ingredientSet = ingredientSet;
         this.mainActivity = mainActivity;
         progressDialog = new ProgressDialog(mainActivity);
         this.db = myDb;

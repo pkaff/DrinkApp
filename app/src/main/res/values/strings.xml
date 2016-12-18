@@ -9,7 +9,7 @@
     <string name="action_home">Home</string>
     <string name="action_about">About</string>
 
-    <string name="firstOpen">false</string>
+    <string name="firstOpen">firstTimeOpened</string>
 
     <!--Buttons-->
     <string name="reset">Reset</string>

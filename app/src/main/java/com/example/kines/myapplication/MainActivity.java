@@ -36,6 +36,11 @@ public class MainActivity extends ToolbarActivity {
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         boolean result = super.onCreateOptionsMenu(menu);
+        createSearchAction(menu);
+        return result;
+    }
+
+    private void createSearchAction(final Menu menu) {
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setQueryHint(getString(R.string.searchViewHint));
@@ -52,7 +57,7 @@ public class MainActivity extends ToolbarActivity {
                 return false;
             }
         });
-        return result;
+    }
     }
 
     @Override
@@ -89,7 +94,7 @@ public class MainActivity extends ToolbarActivity {
 
         adapter = new SearchableAdapter(MainActivity.this, drinkList);
 
-        //listview
+        //Drink listview
         lv = (ListView) findViewById(R.id.drinkListView);
         lv.setAdapter(adapter);
         lv.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
@@ -112,6 +117,7 @@ public class MainActivity extends ToolbarActivity {
         });
         adapter.notifyDataSetChanged();
 
+        //Filtering spinner
         MultiSpinner multiSpinner = (MultiSpinner) findViewById(R.id.ingredientSelector);
         multiSpinner.setItems(ingredientSet, getString(R.string.multiSpinnerTitle), new MultiSpinner.MultiSpinnerListener() {
             @Override
