@@ -38,6 +38,7 @@ public class MainActivity extends ToolbarActivity {
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         boolean result = super.onCreateOptionsMenu(menu);
+        menu.findItem(R.id.action_home).setVisible(false);
         createSearchAction(menu);
         return result;
     }

@@ -40,4 +40,12 @@ public class OpenRecipeActivity extends ToolbarActivity {
         rIng.setText(ingredients);
         rInstr.setText(d.getInstructions());
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        boolean result = super.onCreateOptionsMenu(menu);
+        menu.findItem(R.id.action_search).setVisible(false);
+        menu.findItem(R.id.action_sync).setVisible(false);
+        return result;
+    }
 }
