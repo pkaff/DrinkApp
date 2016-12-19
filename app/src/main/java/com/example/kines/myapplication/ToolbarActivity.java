@@ -1,5 +1,7 @@
 package com.example.kines.myapplication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -51,8 +53,29 @@ public class ToolbarActivity extends AppCompatActivity {
                 Intent homeIntent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(homeIntent);
                 return true;
+            case R.id.action_about:
+                buildAboutDialog();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void buildAboutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.about_title);
+        builder.setMessage(getString(R.string.about_message) + "\n\n"
+                + getString(R.string.about_developers) + "\n\n"
+                + getString(R.string.about_version) + " " + BuildConfig.VERSION_NAME);
+        builder.setPositiveButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        builder.show();
     }
 }
