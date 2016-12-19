@@ -1,14 +1,19 @@
 package com.example.kines.myapplication.data;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.kines.myapplication.DatabaseHelper;
 import com.example.kines.myapplication.Drink;
 import com.example.kines.myapplication.Ingredient;
 import com.example.kines.myapplication.MainActivity;
+import com.example.kines.myapplication.R;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
@@ -19,7 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -38,6 +42,13 @@ public class SyncDatabaseTask extends AsyncTask<String, String, Void>
 
     protected void onPreExecute() {
         Log.d("sync", "start pre excecute");
+
+        if (!isNetworkAvailable()) {
+            Toast.makeText(mainActivity, R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
+            cancel(true);
+            return;
+        }
+
         progressDialog.setMessage("Sync in progress");
         progressDialog.show();
         progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -46,6 +57,13 @@ public class SyncDatabaseTask extends AsyncTask<String, String, Void>
                 SyncDatabaseTask.this.cancel(true);
             }
         });
+    }
+
+    private boolean isNetworkAvailable() {
+        //Make sure we have an internet connection
+        ConnectivityManager cm = (ConnectivityManager) mainActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     @Override

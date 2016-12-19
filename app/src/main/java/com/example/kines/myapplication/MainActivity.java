@@ -68,21 +68,11 @@ public class MainActivity extends ToolbarActivity {
 
         switch(id) {
             case R.id.action_sync:
-                createSyncAction();
+                new SyncDatabaseTask(this, drinkList, ingredientSet, myDb).execute();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void createSyncAction() {
-        //Make sure we have an internet connection
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (cm != null) {
-            new SyncDatabaseTask(this, drinkList, ingredientSet, myDb).execute();
-        } else {
-            Toast.makeText(this, R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
