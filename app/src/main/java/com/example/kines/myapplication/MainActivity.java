@@ -126,7 +126,7 @@ public class MainActivity extends ToolbarActivity {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(v.getContext());
                 String hint = prefs.getString(getString(R.string.filterModePrefKey), getString(R.string.multiSpinnerHintDefault));
                 Toast.makeText(v.getContext(), hint, Toast.LENGTH_SHORT).show();
-                return false;
+                return true;
             }
         });
     }
