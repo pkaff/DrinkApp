@@ -65,8 +65,6 @@ public class SettingsActivity extends PreferenceActivity {
         int id = item.getItemId();
 
         switch(id) {
-            case R.id.action_settings:
-                return true;
             case android.R.id.home:
                 Intent upIntent = new Intent(this, SettingsActivity.class);
                 if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
