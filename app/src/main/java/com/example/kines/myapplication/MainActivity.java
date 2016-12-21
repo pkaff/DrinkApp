@@ -93,6 +93,8 @@ public class MainActivity extends ToolbarActivity {
             myDb.addDrinkToLocalDB(drink.toJSON());
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (NullPointerException e) {
+            //Catch nullpointer if no intent was sent
         }
     }
 
