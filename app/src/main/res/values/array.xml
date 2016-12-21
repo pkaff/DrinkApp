@@ -3,11 +3,13 @@
     <string-array name="filter_mode_text">
         <item>"And mode". What drinks can I make that contains these ingredients?</item>
         <item>"Ingredient mode". What can I make from the selected ingredients?</item>
+        <item>"Or mode". What can I make that contains either of the selected ingredients?</item>
     </string-array>
 
     <string-array name="filter_mode_values">
         <item>@string/filterAndMode</item>
         <item>@string/filterIngredientMode</item>
+        <item>@string/filterOrMode</item>
     </string-array>
 
 </resources>
