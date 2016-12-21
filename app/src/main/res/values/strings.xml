@@ -27,9 +27,12 @@
     <string name="about_message">Thank you for using Daniels Drinks!</string>
     <string name="about_developers">Developed by Daniel Odenbrand and Joel Yourstone</string>
     <string name="about_version">Current version: </string>
+
     <!--XML-->
     <string name="filterModePrefTitle">Filtering mode</string>
     <string name="filterModePrefKey">filteringModePref</string>
+    <string name="filterAndMode">And mode</string>
+    <string name="filterIngredientMode">Ingredient mode</string>
 
     <!--Activities intent-->
     <string name="mainToOpenRecipeActivityIntent">ListViewClick</string>
