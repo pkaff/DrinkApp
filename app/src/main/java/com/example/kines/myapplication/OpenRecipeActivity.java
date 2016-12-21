@@ -1,14 +1,8 @@
 package com.example.kines.myapplication;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class OpenRecipeActivity extends ToolbarActivity {
@@ -22,7 +16,7 @@ public class OpenRecipeActivity extends ToolbarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
-        Drink d = (Drink) intent.getParcelableExtra(getString(R.string.mainToOpenRecipeActivityIntent));
+        Drink d = intent.getParcelableExtra(getString(R.string.mainToOpenRecipeActivityIntent));
 
         TextView rName = (TextView) findViewById(R.id.recipeName);
         TextView rGlass = (TextView) findViewById(R.id.glasType);
