@@ -31,7 +31,7 @@
     <string name="searchViewHint">Search for a drink</string>
     <string name="noInternetConnection">No internet connection</string>
 
-    <!--About dialog-->
+    <!--Add drink hints and names-->
     <string name="addDrinkHint_name">Drink name</string>
     <string name="addDrinkHint_recipe">Enter instructions...</string>
     <string name="addDrinkHint_glass">Select glass type</string>
@@ -40,6 +40,8 @@
     <string name="addDrink_addIngredientHint_size">Size</string>
     <string name="addDrink_addIngredientHint_unit">Unit</string>
     <string name="addDrink_addIngredientHint_spinnerText">Select ingredient</string>
+
+    <!--About dialog-->
     <string name="about_title">Daniels Drinks</string>
     <string name="about_message">Thank you for using Daniels Drinks!</string>
     <string name="about_developers">Developed by Daniel Odenbrand and Joel Yourstone</string>
