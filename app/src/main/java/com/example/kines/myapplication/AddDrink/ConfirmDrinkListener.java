@@ -15,5 +15,8 @@ import java.util.ArrayList;
  */
 
 public class ConfirmDrinkListener implements DialogInterface.OnClickListener {
+    @Override
+    public void onClick(DialogInterface dialogInterface, int i) {
 
+    }
 }
