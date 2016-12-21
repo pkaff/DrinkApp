@@ -108,6 +108,15 @@ public class MainActivity extends ToolbarActivity {
         adapter = new SearchableAdapter(MainActivity.this, drinkList);
 
         //Drink listview
+        instantiateListView();
+
+        adapter.notifyDataSetChanged();
+
+        //Filtering spinner
+        instantiateMultiSpinner();
+    }
+
+    private void instantiateListView() {
         lv = (ListView) findViewById(R.id.drinkListView);
         lv.setAdapter(adapter);
         lv.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
@@ -128,9 +137,9 @@ public class MainActivity extends ToolbarActivity {
                 startActivity(intent);
             }
         });
-        adapter.notifyDataSetChanged();
+    }
 
-        //Filtering spinner
+    private void instantiateMultiSpinner() {
         MultiSpinner multiSpinner = (MultiSpinner) findViewById(R.id.ingredientSelector);
         multiSpinner.setItems(ingredientSet, getString(R.string.multiSpinnerTitle), new MultiSpinner.MultiSpinnerListener() {
             @Override
