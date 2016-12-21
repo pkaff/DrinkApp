@@ -41,12 +41,12 @@ public class MultiSpinner extends Spinner implements
     @Override
     public void onCancel(DialogInterface dialog) {
         //Filter according to selections
-        ArrayAdapter<String> a = new ArrayAdapter<String>(getContext(),
+        ArrayAdapter<String> a = new ArrayAdapter<>(getContext(),
                 R.layout.spinner_item_layout,
                 new String[] { defaultText });
         setAdapter(a);
         listener.onItemsSelected(selected);
-        List<String> selectedIngredients = new ArrayList<String>();
+        List<String> selectedIngredients = new ArrayList<>();
         for (int i = 0; i < selected.length; ++i) {
             if (selected[i]) {
                 selectedIngredients.add(ingredients.get(i));
@@ -98,7 +98,7 @@ public class MultiSpinner extends Spinner implements
 
     public void setItems(Set<Ingredient> items, String allText,
                          MultiSpinnerListener listener, SearchableAdapter a) {
-        this.ingredients = new ArrayList<String>();
+        this.ingredients = new ArrayList<>();
         for (Ingredient i : items) {
             ingredients.add(i.getFormattedName());
         }
@@ -106,13 +106,13 @@ public class MultiSpinner extends Spinner implements
         this.listener = listener;
         this.adapter = a;
 
-        // all selected by default
+        // all unselected by default
         selected = new boolean[ingredients.size()];
         for (int i = 0; i < selected.length; i++)
             selected[i] = false;
 
         // all text on the spinner
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
                 R.layout.spinner_item_layout, new String[] { allText });
         setAdapter(adapter);
     }

@@ -1,9 +1,7 @@
 package com.example.kines.myapplication;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
@@ -30,8 +28,8 @@ import java.util.TreeSet;
 public class MainActivity extends ToolbarActivity {
 
     DatabaseHelper myDb;
-    List<Drink> drinkList = new ArrayList<Drink>();
-    Set<Ingredient> ingredientSet = new TreeSet<Ingredient>();
+    List<Drink> drinkList = new ArrayList<>();
+    Set<Ingredient> ingredientSet = new TreeSet<>();
     SearchableAdapter adapter;
     ListView lv;
 

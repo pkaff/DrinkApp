@@ -115,10 +115,10 @@ public class SearchableAdapter extends BaseAdapter {
             final List<Drink> list = originalData;
 
             int count = list.size();
-            ArrayList<Drink> nList = new ArrayList<Drink>(count);
+            ArrayList<Drink> nList = new ArrayList<>(count);
 
             Drink filterableDrink;
-            List<String> ingredientsFilter = Arrays.asList(filterString.split(";"));
+            List<String> ingredientsInFilter = Arrays.asList(filterString.split(";"));
 
             if (filterString.length() == 0) {
                 results.values = originalData;
@@ -133,7 +133,7 @@ public class SearchableAdapter extends BaseAdapter {
                 case "And mode":
                     for (int i = 0; i < count; ++i) {
                         filterableDrink = list.get(i);
-                        if (filterableDrink.containsAllOf(ingredientsFilter)) {
+                        if (filterableDrink.containsAllOf(ingredientsInFilter)) {
                             nList.add(filterableDrink);
                         }
                     }
@@ -142,7 +142,7 @@ public class SearchableAdapter extends BaseAdapter {
                 case "Ingredient mode":
                     for (int i = 0; i < count; ++i) {
                         filterableDrink = list.get(i);
-                        if (filterableDrink.canBeMadeWith(ingredientsFilter)) {
+                        if (filterableDrink.canBeMadeWith(ingredientsInFilter)) {
                             nList.add(filterableDrink);
                         }
                     }
@@ -214,7 +214,7 @@ public class SearchableAdapter extends BaseAdapter {
             final List<Drink> list = originalData;
 
             int count = list.size();
-            final ArrayList<Drink> nList = new ArrayList<Drink>(count);
+            final ArrayList<Drink> nList = new ArrayList<>(count);
 
             Drink filterableDrink;
 
