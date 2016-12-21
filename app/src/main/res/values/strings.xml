@@ -28,7 +28,7 @@
     <string name="about_developers">Developed by Daniel Odenbrand and Joel Yourstone</string>
     <string name="about_version">Current version: </string>
 
-    <!--XML-->
+    <!--Filtering setting-->
     <string name="filterModePrefTitle">Filtering mode</string>
     <string name="filterModePrefKey">filteringModePref</string>
     <string name="filterAndMode">And mode</string>

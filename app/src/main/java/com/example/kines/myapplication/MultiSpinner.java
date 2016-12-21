@@ -96,8 +96,7 @@ public class MultiSpinner extends Spinner implements
         return true;
     }
 
-    public void setItems(Set<Ingredient> items, String allText,
-                         MultiSpinnerListener listener, SearchableAdapter a) {
+    public void setItems(Set<Ingredient> items, String allText, MultiSpinnerListener listener, SearchableAdapter a) {
         this.ingredients = new ArrayList<>();
         for (Ingredient i : items) {
             ingredients.add(i.getFormattedName());
