@@ -33,6 +33,7 @@
     <string name="filterModePrefKey">filteringModePref</string>
     <string name="filterAndMode">And mode</string>
     <string name="filterIngredientMode">Ingredient mode</string>
+    <string name="filterOrMode">Or mode</string>
 
     <!--Activities intent-->
     <string name="mainToOpenRecipeActivityIntent">ListViewClick</string>

@@ -148,6 +148,14 @@ public class SearchableAdapter extends BaseAdapter {
                     }
                     errorMessage = "No drinks in the database can be made with the ingredients selected in the ingredient selector.";
                     break;
+                case "Or mode":
+                    for (int i = 0; i < count; ++i) {
+                        filterableDrink = list.get(i);
+                        if (filterableDrink.containsSomeOf(ingredientsInFilter)) {
+                            nList.add(filterableDrink);
+                        }
+                    }
+
                 default:
                     errorMessage = "No filter type selected in settings.";
                     break;
