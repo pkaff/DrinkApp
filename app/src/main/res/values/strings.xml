@@ -40,4 +40,7 @@
 
     <!--Recipe string constants-->
     <string name="recipeGlassConstant">Glass: </string>
-</resources>
+
+    <!--DB strings-->
+    <string name="dbPrefLastModified">LastModified</string>
+    </resources>

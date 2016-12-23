@@ -3,9 +3,11 @@ package com.example.kines.myapplication.data;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,11 +22,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.BufferedInputStream;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 public class SyncDatabaseTask extends AsyncTask<String, String, Void>
@@ -81,6 +89,11 @@ public class SyncDatabaseTask extends AsyncTask<String, String, Void>
         } catch(JSONException e) {
             Log.e("JSONException", "Error: " + e.toString());
         }
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mainActivity);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        editor.putString(mainActivity.getString(R.string.dbPrefLastModified), format.format(new Date()));
+        editor.commit();
     }
 
     @Override
@@ -88,20 +101,30 @@ public class SyncDatabaseTask extends AsyncTask<String, String, Void>
         Log.d("sync", "start in bg");
         URL url;
         try {
-             url = new URL("http://danielsdrinks.azurewebsites.net/Drinks.php");
+            url = new URL("http://danielsdrinks.azurewebsites.net/Drinks.php");
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("POST");
+            try {
+                //Write last modified date to output stream
+                DataOutputStream post = new DataOutputStream(urlConnection.getOutputStream());
+                String lastModified = PreferenceManager.getDefaultSharedPreferences(mainActivity).getString(mainActivity.getString(R.string.dbPrefLastModified), "");
+                post.writeBytes(lastModified);
+                post.flush();
+                post.close();
 
-            try{
+                Log.d("post", lastModified);
+
+                //Read response
+                urlConnection.setRequestMethod("GET");
                 InputStream in = new BufferedInputStream(urlConnection.getInputStream());
                 result = IOUtils.toString(in, "utf-8");
+                in.close();
 
                 Log.d("sync", result);
 
             } finally {
                 urlConnection.disconnect();
             }
-
-
         } catch(IOException e) {
             throw new RuntimeException(e);
         }

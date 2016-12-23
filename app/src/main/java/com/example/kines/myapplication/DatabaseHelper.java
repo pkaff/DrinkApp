@@ -156,7 +156,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void syncDrinks(JSONArray jsonArray) throws JSONException {
-        onUpgrade(myDataBase, 0, 0);
+        //onUpgrade(myDataBase, 0, 0);
         for(int i=0; i < jsonArray.length(); i++) {
             JSONObject JSONdrink = jsonArray.getJSONObject(i);
 
