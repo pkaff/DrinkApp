@@ -1,16 +1,11 @@
 package com.example.kines.myapplication;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,13 +17,21 @@ import com.example.kines.myapplication.AddDrink.OpenAddIngredient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
 public class AddDrinkActivity extends ToolbarActivity {
     private ArrayList<Ingredient> ingredientsToAdd = new ArrayList<Ingredient>();
     private Drink drink;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,14 +59,24 @@ public class AddDrinkActivity extends ToolbarActivity {
         ArrayAdapter<Ingredient> ingredientAdapter = new ArrayAdapter<Ingredient>(AddDrinkActivity.this, android.R.layout.simple_list_item_1, ingredientsToAdd);
         ingredientListView.setAdapter(ingredientAdapter);
 
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
         //Confirm button
         Button confirmDrinkBtn = (Button)findViewById(R.id.addDrink_confirmBtn);
         confirmDrinkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), MainActivity.class);
-                intent.putExtra(getString(R.string.addDrinkToMainConfirm), drink);
-                startActivity(intent);
+                try {
+                    JSONObject JSONDrink = formToJSON();
+                    Intent intent = new Intent(v.getContext(), MainActivity.class);
+                    intent.putExtra(getString(R.string.addDrinkToMain), JSONDrink.toString());
+                    startActivity(intent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                    Toast.makeText(v.getContext(), R.string.addDrink_error_incompleteForm, Toast.LENGTH_SHORT);
+                }
             }
         });
 
@@ -72,24 +85,29 @@ public class AddDrinkActivity extends ToolbarActivity {
         cancelDrinkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), AddDrinkActivity.class);
-                intent.putExtra(getString(R.string.addDrinkToMainCancel), "");
+                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                intent.putExtra(getString(R.string.addDrinkToMain), getString(R.string.addDrink_cancelled));
                 startActivity(intent);
             }
         });
 
     }
 
-    private JSONObject postDrink() throws JSONException {
+    private JSONObject formToJSON() throws JSONException, IllegalArgumentException {
         //Info to send to DB
-        String drinkName = ((TextView)findViewById(R.id.addDrink_name)).getText().toString();
-        String glassType = ((Spinner)findViewById(R.id.addDrink_glass_spinner)).getSelectedItem().toString();
-        String instructions = ((TextView)findViewById(R.id.addDrink_instructions)).getText().toString();
+        String drinkName = ((TextView)findViewById(R.id.addDrink_name)).getText().toString().trim();
+        String glassType = ((Spinner)findViewById(R.id.addDrink_glass_spinner)).getSelectedItem().toString().trim();
+        String instructions = ((TextView)findViewById(R.id.addDrink_instructions)).getText().toString().trim();
+
+        //Throw illegal argument if not all required fields are filled in
+        if (drinkName.isEmpty() || glassType.isEmpty() || instructions.isEmpty() || ingredientsToAdd.isEmpty()) {
+            throw new IllegalArgumentException(getString(R.string.addDrink_error_incompleteForm));
+        }
 
         drink = new Drink(drinkName, glassType, instructions, ingredientsToAdd);
 
-        JSONObject JSONDrink = new JSONObject();
-        JSONDrink.put("Drink", drink.toJSON());
+        JSONObject JSONDrink = drink.toJSON();
+
         return JSONDrink;
     }
 

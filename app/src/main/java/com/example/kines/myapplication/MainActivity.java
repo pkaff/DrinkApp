@@ -89,9 +89,15 @@ public class MainActivity extends ToolbarActivity {
             new SyncDatabaseTask(this, drinkList, ingredientSet, myDb).execute();
         }
         Intent intent = getIntent();
-        Drink drink = intent.getParcelableExtra(getString(R.string.addDrinkToMainConfirm));
+        Drink drink = intent.getParcelableExtra(getString(R.string.addDrinkToMain));
         try {
-            myDb.addDrinkToLocalDB(drink.toJSON());
+            if (drink != null) {
+                myDb.addDrinkToLocalDB(drink.toJSON());
+                Toast.makeText(this, getString(R.string.addDrink_mainActivity_drinkAdded), Toast.LENGTH_SHORT).show();
+            } else if (intent.getStringExtra(getString(R.string.addDrinkToMain)).equals(getString(R.string.addDrink_cancelled))) {
+                Toast.makeText(this, getString(R.string.addDrink_mainActivity_drinkAddCancelled), Toast.LENGTH_SHORT).show();
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
@@ -116,6 +122,10 @@ public class MainActivity extends ToolbarActivity {
         //Dependent of the information loaded in database
         populate();
 
+        displayAddDrinkButton();
+    }
+
+    public void displayAddDrinkButton() {
         //Add drink button
         FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.addBtn);
         //needs to send ingredient and glasses info
@@ -123,8 +133,13 @@ public class MainActivity extends ToolbarActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), AddDrinkActivity.class);
-                String msg = "";
-                intent.putExtra(getString(R.string.mainToAddDrinkActivity), msg);
+                ArrayList<Ingredient> i = new ArrayList<>();
+                i.addAll(ingredientSet);
+                ArrayList<String> g = new ArrayList<>();
+                g.addAll(glasses);
+                //Send ingredients in intent
+                intent.putParcelableArrayListExtra(getString(R.string.mainToAddDrinkActivity), i);
+                intent.putStringArrayListExtra(getString(R.string.mainToAddDrinkActivity), g);
                 startActivity(intent);
             }
         });
