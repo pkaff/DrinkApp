@@ -164,12 +164,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             int drinkId = JSONdrink.getInt("id");
             String instructions = JSONdrink.getString("instructions");
             String drinkName = JSONdrink.getString("name");
+            String modifiedDate = JSONdrink.getString("modified");
 
             ContentValues values = new ContentValues();
             values.put("id", drinkId);
             values.put("name", drinkName);
             values.put("instructions", instructions);
             values.put("glass", glass);
+            values.put("modified", modifiedDate);
 
             myDataBase.insert("drink", null, values);
 
