@@ -181,9 +181,11 @@ public class Drink implements Parcelable, Comparable<Drink>{
         o.put("name", name);
         o.put("glass", glass);
         o.put("instructions", instructions);
+        JSONArray a = new JSONArray();
         for (Ingredient i : ingredients) {
-            o.put("ingredient", i.toJSON());
+            a.put(i.toJSON());
         }
+        o.put("ingredients", a);
         o.put("modified", dateModified);
         return o;
     }
