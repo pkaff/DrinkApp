@@ -155,11 +155,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void pushLocalDrinksToServer() {
-        //Check for local drink flag, send
-        //Or just send entire db. Don't overwrite?
-    }
-
     public void addDrinkToLocalDB(JSONObject JSONDrink) throws JSONException {
         onUpgrade(myDataBase, 0, 0);
         JSONArray array = new JSONArray();
@@ -196,7 +191,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 double size = JSONIngredient.getDouble("size");
 
                 // add ingredient to db
-                Cursor checkIngredient = myDataBase.rawQuery("SELECT * FROM ingredient WHERE id = " + ingredientId,null);
+                Cursor checkIngredient = myDataBase.rawQuery("SELECT * FROM ingredient WHERE id = " + ingredientId, null);
 
                 if(checkIngredient.getCount() == 0) {
                     values = new ContentValues();

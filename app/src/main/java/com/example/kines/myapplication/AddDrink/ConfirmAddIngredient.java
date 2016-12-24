@@ -38,7 +38,7 @@ public class ConfirmAddIngredient implements DialogInterface.OnClickListener {
         TextView addDrink_ingredient_unit = (TextView) view.findViewById(R.id.addDrink_addIngredient_unit);
         if (textViewIsEmpty(addDrink_ingredient_size) || textViewIsEmpty(addDrink_ingredient_unit) || ingredientSelector.getSelectedItem() == null) {
             //Form not filled out
-            t = Toast.makeText(view.getContext(), R.string.addDrink_addIngredient_error_incompleteForm, Toast.LENGTH_SHORT);
+            t = Toast.makeText(view.getContext(), R.string.addDrink_error_incompleteForm, Toast.LENGTH_SHORT);
         } else {
             boolean errorCaught = false;
             //Add ingredient

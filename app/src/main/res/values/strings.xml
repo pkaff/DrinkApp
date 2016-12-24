@@ -40,6 +40,9 @@
     <string name="addDrink_addIngredientHint_size">Size</string>
     <string name="addDrink_addIngredientHint_unit">Unit</string>
     <string name="addDrink_addIngredientHint_spinnerText">Select ingredient</string>
+    <string name="addDrink_mainActivity_drinkAdded">Drink successfully added</string>
+    <string name="addDrink_mainActivity_drinkAddCancelled">Add drink cancelled</string>
+    <string name="addDrink_cancelled">Cancelled</string>
 
     <!--About dialog-->
     <string name="about_title">Daniels Drinks</string>
@@ -48,7 +51,7 @@
     <string name="about_version">Current version: </string>
 
     <!--Toasts-->
-    <string name="addDrink_addIngredient_error_incompleteForm">You have not filled out all fields</string>
+    <string name="addDrink_error_incompleteForm">You have not filled out all fields</string>
     <string name="addDrink_addIngredient_success_ingAdded">Ingredient added to drink</string>
     <string name="addDrink_addIngredient_error_size">Size is not a double</string>
 
@@ -62,8 +65,7 @@
     <!--Activities intent-->
     <string name="mainToOpenRecipeActivityIntent">ListViewClick</string>
     <string name="mainToAddDrinkActivity">AddButtonClick</string>
-    <string name="addDrinkToMainCancel">DrinkAddCanceled</string>
-    <string name="addDrinkToMainConfirm">DrinkAdded</string>
+    <string name="addDrinkToMain">AddDrinkToMain</string>
 
     <!--Recipe string constants-->
     <string name="recipeGlassConstant">Glass: </string>

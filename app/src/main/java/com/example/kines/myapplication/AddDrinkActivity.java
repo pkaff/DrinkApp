@@ -68,7 +68,7 @@ public class AddDrinkActivity extends ToolbarActivity {
         });
 
         //Cancel button
-        Button cancelDrinkBtn = (Button)findViewById(R.id.addDrink_confirmBtn);
+        Button cancelDrinkBtn = (Button)findViewById(R.id.addDrink_cancelBtn);
         cancelDrinkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,10 +78,6 @@ public class AddDrinkActivity extends ToolbarActivity {
             }
         });
 
-    }
-
-    private boolean textViewIsEmpty(TextView v) {
-        return v.getText().toString().trim().length() == 0;
     }
 
     private JSONObject postDrink() throws JSONException {
