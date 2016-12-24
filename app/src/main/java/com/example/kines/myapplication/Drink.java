@@ -6,10 +6,14 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import org.apache.commons.lang3.text.WordUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,6 +25,7 @@ public class Drink implements Parcelable, Comparable<Drink>{
     private String glass;
     private List<Ingredient> ingredients;
     private String instructions;
+    private String dateModified;
     private int score;
 
     protected Drink(Parcel p) {
@@ -30,6 +35,12 @@ public class Drink implements Parcelable, Comparable<Drink>{
         ingredients = new ArrayList<Ingredient>();
         p.readList(ingredients, Ingredient.class.getClassLoader());
         instructions = p.readString();
+        dateModified = p.readString();
+    }
+
+    public Drink(String name, String glass, String instructions, List<Ingredient> ingredients, String dateModified) {
+        this(name, glass, instructions, ingredients);
+        this.dateModified = dateModified;
     }
 
     public Drink(String name, String glass, String instructions, List<Ingredient> ingredients) {
@@ -42,6 +53,8 @@ public class Drink implements Parcelable, Comparable<Drink>{
         this.name = name;
         this.glass = glass;
         this.instructions = instruction;
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateModified = format.format(new Date());
     }
 
     public boolean containsSomeOf(List<String> ingredientNames) {
@@ -146,6 +159,7 @@ public class Drink implements Parcelable, Comparable<Drink>{
         dest.writeString(glass);
         dest.writeList(ingredients);
         dest.writeString(instructions);
+        dest.writeString(dateModified);
     }
 
     public static final Parcelable.Creator<Drink> CREATOR = new Parcelable.Creator<Drink>() {
@@ -170,6 +184,7 @@ public class Drink implements Parcelable, Comparable<Drink>{
         for (Ingredient i : ingredients) {
             o.put("ingredient", i.toJSON());
         }
+        o.put("modified", dateModified);
         return o;
     }
 }

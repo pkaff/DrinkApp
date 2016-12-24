@@ -156,14 +156,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void addDrinkToLocalDB(JSONObject JSONDrink) throws JSONException {
-        onUpgrade(myDataBase, 0, 0);
+
+        //onUpgrade(myDataBase, 0, 0);
         JSONArray array = new JSONArray();
         array.put(JSONDrink);
         syncDrinks(array);
     }
 
     public void syncDrinks(JSONArray jsonArray) throws JSONException {
-        onUpgrade(myDataBase, 0, 0);
+        //onUpgrade(myDataBase, 0, 0);
         for(int i=0; i < jsonArray.length(); i++) {
             JSONObject JSONdrink = jsonArray.getJSONObject(i);
 
@@ -171,12 +172,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             int drinkId = JSONdrink.getInt("id");
             String instructions = JSONdrink.getString("instructions");
             String drinkName = JSONdrink.getString("name");
+            String modifiedDate = JSONdrink.getString("modified");
 
             ContentValues values = new ContentValues();
             values.put("id", drinkId);
             values.put("name", drinkName);
             values.put("instructions", instructions);
             values.put("glass", glass);
+            values.put("modified", modifiedDate);
 
             myDataBase.insert("drink", null, values);
 
