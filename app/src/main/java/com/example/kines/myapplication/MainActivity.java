@@ -35,6 +35,7 @@ public class MainActivity extends ToolbarActivity {
     Set<Ingredient> ingredientSet = new TreeSet<>();
     SearchableAdapter adapter;
     ListView lv;
+    Set<String> glasses = new TreeSet<>();
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
@@ -133,6 +134,9 @@ public class MainActivity extends ToolbarActivity {
         myDb.populateDrinks(drinkList, ingredientSet);
         Collections.sort(drinkList); //Sort by name
 
+        //Collect all glasses in a set
+        populateGlasses();
+
         adapter = new SearchableAdapter(MainActivity.this, drinkList);
 
         //The list of drinks
@@ -142,6 +146,12 @@ public class MainActivity extends ToolbarActivity {
 
         //Filtering spinner
         instantiateMultiSpinner();
+    }
+
+    public void populateGlasses() {
+        for (Drink d : drinkList) {
+            glasses.add(d.getGlass());
+        }
     }
 
     public void instantiateListView() {
