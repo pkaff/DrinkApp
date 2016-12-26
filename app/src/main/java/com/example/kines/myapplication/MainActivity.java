@@ -32,7 +32,7 @@ public class MainActivity extends ToolbarActivity {
 
     DatabaseHelper myDb;
     List<Drink> drinkList = new ArrayList<>();
-    Set<Ingredient> ingredientSet = new TreeSet<>();
+    Set<String> ingredientSet = new TreeSet<>();
     SearchableAdapter adapter;
     ListView lv;
     Set<String> glasses = new TreeSet<>();
@@ -70,7 +70,7 @@ public class MainActivity extends ToolbarActivity {
 
         switch(id) {
             case R.id.action_sync:
-                new SyncDatabaseTask(this, drinkList, ingredientSet, myDb).execute();
+                new SyncDatabaseTask(this, myDb).execute();
                 return true;
         }
 
@@ -86,7 +86,7 @@ public class MainActivity extends ToolbarActivity {
             SharedPreferences.Editor edit = prefs.edit();
             edit.putBoolean(getString(R.string.firstOpen), Boolean.TRUE);
             edit.commit();
-            new SyncDatabaseTask(this, drinkList, ingredientSet, myDb).execute();
+            new SyncDatabaseTask(this, myDb).execute();
         }
         Intent intent = getIntent();
         Drink drink = intent.getParcelableExtra(getString(R.string.addDrinkToMain));
@@ -133,13 +133,13 @@ public class MainActivity extends ToolbarActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), AddDrinkActivity.class);
-                ArrayList<Ingredient> i = new ArrayList<>();
+                ArrayList<String> i = new ArrayList<>();
                 i.addAll(ingredientSet);
                 ArrayList<String> g = new ArrayList<>();
                 g.addAll(glasses);
                 //Send ingredients in intent
-                intent.putParcelableArrayListExtra(getString(R.string.mainToAddDrinkActivity), i);
-                intent.putStringArrayListExtra(getString(R.string.mainToAddDrinkActivity), g);
+                intent.putStringArrayListExtra(getString(R.string.mainToAddDrinkActivity_ingredients), i);
+                intent.putStringArrayListExtra(getString(R.string.mainToAddDrinkActivity_glasses), g);
                 startActivity(intent);
             }
         });

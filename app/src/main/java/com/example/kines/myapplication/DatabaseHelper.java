@@ -95,7 +95,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void populateDrinks(List<Drink> drinkList, Set<Ingredient> ingredients) throws SQLException {
+    public void populateDrinks(List<Drink> drinkList, Set<String> ingredients) throws SQLException {
         //Clear drinks and ingredients to prepare fetching new ones from the database
         if (!drinkList.isEmpty()) {
             drinkList.clear();
@@ -141,7 +141,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                                 Ingredient ingredient = new Ingredient(ingredientName, ingredientSize, ingredientUnit);
                                 ingredientsList.add(ingredient);
-                                ingredients.add(ingredient);
+                                ingredients.add(ingredient.getName());
                             } while(ingredientCursor.moveToNext());
                         }
                     }
