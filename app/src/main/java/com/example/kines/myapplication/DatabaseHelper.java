@@ -141,7 +141,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                                 Ingredient ingredient = new Ingredient(ingredientName, ingredientSize, ingredientUnit);
                                 ingredientsList.add(ingredient);
-                                ingredients.add(ingredient.getName());
+                                ingredients.add(ingredient.getFormattedName());
                             } while(ingredientCursor.moveToNext());
                         }
                     }
