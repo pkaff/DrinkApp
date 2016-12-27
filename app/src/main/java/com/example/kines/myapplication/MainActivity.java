@@ -2,6 +2,7 @@ package com.example.kines.myapplication;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -92,7 +93,8 @@ public class MainActivity extends ToolbarActivity {
         Drink drink = intent.getParcelableExtra(getString(R.string.addDrinkToMain));
         try {
             if (drink != null) {
-                myDb.addDrinkToLocalDB(drink.toJSON());
+                myDb.addToDB(drink.toJSON());
+                populate();
                 Toast.makeText(this, getString(R.string.addDrink_mainActivity_drinkAdded), Toast.LENGTH_SHORT).show();
             } else if (intent.getStringExtra(getString(R.string.addDrinkToMain)).equals(getString(R.string.addDrink_cancelled))) {
                 Toast.makeText(this, getString(R.string.addDrink_mainActivity_drinkAddCancelled), Toast.LENGTH_SHORT).show();
@@ -100,6 +102,9 @@ public class MainActivity extends ToolbarActivity {
 
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         } catch (NullPointerException e) {
             //Catch nullpointer if no intent was sent
         }

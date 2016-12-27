@@ -3,6 +3,7 @@ package com.example.kines.myapplication.data;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -72,9 +73,12 @@ public class SyncDatabaseTask extends AsyncTask<String, String, Void>
         try {
             JSONArray jsonArray = new JSONArray(result);
             try {
-                db.syncDrinks(jsonArray);
+                db.clearDBAndAdd(jsonArray);
             } catch(JSONException f) {
                 throw new RuntimeException(f);
+            } catch (SQLiteException e) {
+                e.printStackTrace();
+                Toast.makeText(mainActivity, R.string.database_sqliteException, Toast.LENGTH_LONG).show();
             }
             mainActivity.populate();
             this.progressDialog.dismiss();

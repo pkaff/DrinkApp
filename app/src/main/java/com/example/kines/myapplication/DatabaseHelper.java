@@ -32,10 +32,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "Drink_Recipes.db";
 
     private static final String TABLE_DRINK_CREATE = "CREATE TABLE IF NOT EXISTS `drink` (\n" +
-            "  `id` int(11) NOT NULL,\n" +
+            "  `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n" +
             "  `name` text NOT NULL,\n" +
             "  `glass` text NOT NULL,\n" +
-            "  `instructions` text NOT NULL\n" +
+            "  `instructions` text NOT NULL,\n" +
+            "  `modified` text NOT NULL\n" +
             ")";
 
     private static final String TABLE_DRINK_INGREDIENT_CREATE = "CREATE TABLE IF NOT EXISTS `drink_ingredient` (\n" +
@@ -46,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ")";
 
     private static final String TABLE_INGREDIENT_CREATE = "CREATE TABLE IF NOT EXISTS `ingredient` (\n" +
-            "  `id` int(11) NOT NULL,\n" +
+            "  `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n" +
             "  `name` text NOT NULL\n" +
             ")";
 
@@ -67,6 +68,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.activity = activity;
 
         this.myDataBase = getWritableDatabase();
+        onCreate(myDataBase);
     }
 
     @Override
@@ -155,52 +157,66 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void addDrinkToLocalDB(JSONObject JSONDrink) throws JSONException {
-
+    //Adds one JSONDrink to the database
+    public void addToDB(JSONObject JSONDrink) throws JSONException, SQLiteException {
         //onUpgrade(myDataBase, 0, 0);
         JSONArray array = new JSONArray();
         array.put(JSONDrink);
-        syncDrinks(array);
+        putJSONArrayInDB(array);
     }
 
-    public void syncDrinks(JSONArray jsonArray) throws JSONException {
+    //Deletes old database entirely and adds the jsonArray of drinks
+    public void clearDBAndAdd(JSONArray jsonArray) throws JSONException, SQLiteException {
+        onUpgrade(myDataBase, 0, 0);
+        putJSONArrayInDB(jsonArray);
+    }
+
+    private void putJSONArrayInDB(JSONArray jsonArray) throws JSONException, SQLiteException {
         //onUpgrade(myDataBase, 0, 0);
         for(int i=0; i < jsonArray.length(); i++) {
             JSONObject JSONdrink = jsonArray.getJSONObject(i);
 
             String glass = JSONdrink.getString("glass");
-            int drinkId = JSONdrink.getInt("id");
+            //int drinkId = JSONdrink.getInt("id");
             String instructions = JSONdrink.getString("instructions");
             String drinkName = JSONdrink.getString("name");
             String modifiedDate = JSONdrink.getString("modified");
 
             ContentValues values = new ContentValues();
-            values.put("id", drinkId);
+            //values.put("id", drinkId);
             values.put("name", drinkName);
             values.put("instructions", instructions);
             values.put("glass", glass);
             values.put("modified", modifiedDate);
 
-            myDataBase.insert("drink", null, values);
+            long drinkId = myDataBase.insert("drink", null, values);
+
+            if (drinkId == -1) {
+                throw new SQLiteException(activity.getString(R.string.database_sqliteException));
+            }
 
             JSONArray ingredients = JSONdrink.getJSONArray("ingredients");
 
             for(int j = 0; j < ingredients.length(); j++) {
                 JSONObject JSONIngredient = ingredients.getJSONObject(j);
 
-                int ingredientId = JSONIngredient.getInt("id");
+                //int ingredientId = JSONIngredient.getInt("id");
                 String ingredientName = JSONIngredient.getString("name");
                 String unit = JSONIngredient.getString("unit");
                 double size = JSONIngredient.getDouble("size");
 
                 // add ingredient to db
-                Cursor checkIngredient = myDataBase.rawQuery("SELECT * FROM ingredient WHERE id = " + ingredientId, null);
-
+                String selectQuery = "SELECT * FROM ingredient WHERE LOWER(name) = ?";
+                Cursor checkIngredient = myDataBase.rawQuery(selectQuery, new String[] {ingredientName.toLowerCase()});
+                long ingredientId;
                 if(checkIngredient.getCount() == 0) {
                     values = new ContentValues();
-                    values.put("id", ingredientId);
+                    //values.put("id", ingredientId);
                     values.put("name", ingredientName);
-                    myDataBase.insert("ingredient", null, values);
+                    ingredientId = myDataBase.insert("ingredient", null, values);
+                } else {
+                    checkIngredient.moveToFirst();
+                    ingredientId = checkIngredient.getInt(0);
                 }
 
                 // add connection to db
