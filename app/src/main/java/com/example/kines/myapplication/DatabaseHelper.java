@@ -106,7 +106,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ingredients.clear();
         }
         // fetch all drinks
-        Cursor cursor = myDataBase.rawQuery("select id, name, glass, instructions from drink", null);
+        Cursor cursor = myDataBase.rawQuery("select id, name, glass, instructions, modified from drink", null);
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -116,8 +116,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     String name = cursor.getString(1);
                     String glass = cursor.getString(2);
                     String instructions = cursor.getString(3);
+                    String modified = cursor.getString(4);
 
-                    Drink drink = new Drink(name, glass, instructions);
+                    Drink drink = new Drink(name, glass, instructions, modified);
 
                     ArrayList<Ingredient> ingredientsList = new ArrayList<Ingredient>();
 

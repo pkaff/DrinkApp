@@ -38,6 +38,11 @@ public class Drink implements Parcelable, Comparable<Drink>{
         dateModified = p.readString();
     }
 
+    public Drink(String name, String glass, String instructions, String dateModified) {
+        this(name, glass, instructions);
+        this.dateModified = dateModified;
+    }
+
     public Drink(String name, String glass, String instructions, List<Ingredient> ingredients, String dateModified) {
         this(name, glass, instructions, ingredients);
         this.dateModified = dateModified;
