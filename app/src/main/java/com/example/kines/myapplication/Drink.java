@@ -1,9 +1,7 @@
 package com.example.kines.myapplication;
 
-import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import org.apache.commons.lang3.text.WordUtils;
 import org.json.JSONArray;
@@ -11,7 +9,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -58,7 +55,7 @@ public class Drink implements Parcelable, Comparable<Drink>{
         this.name = name;
         this.glass = glass;
         this.instructions = instruction;
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat format = new ConstantDateFormat();
         dateModified = format.format(new Date());
     }
 
