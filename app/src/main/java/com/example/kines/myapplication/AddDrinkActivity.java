@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -11,17 +12,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kines.myapplication.AddDrink.AddIngredientListener;
 import com.example.kines.myapplication.AddDrink.OpenAddIngredient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 
 public class AddDrinkActivity extends ToolbarActivity {
@@ -42,24 +38,42 @@ public class AddDrinkActivity extends ToolbarActivity {
         ((TextView)findViewById(R.id.toolbarText)).setText(R.string.addDrinkToolbarText);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Intent intent = getIntent();
+        ArrayList<String> ingredients = intent.getStringArrayListExtra(getString(R.string.mainToAddDrinkActivity_ingredients));
+        ArrayList<String> glasses = intent.getStringArrayListExtra(getString(R.string.mainToAddDrinkActivity_glasses));
+
         final Spinner glassSelector = (Spinner) findViewById(R.id.addDrink_glass_spinner);
-        String[] glassArray = new String[] {"Margarita", "Martini", "Highball"}; //should probably not be hard-coded - just testing
+        String[] glassArray = new String[glasses.size()];
+        for (int k = 0; k < glasses.size(); ++k) {
+            glassArray[k] = glasses.get(k);
+        }
         ArrayAdapter<String> glassAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, glassArray);
         glassSelector.setAdapter(glassAdapter);
 
-        String[] ingredientArray = new String[] {"Ing1", "Ing2", "Ing3"}; //should not be hard-coded - just testing
+        //Add all ingredient names to the string array
+        String[] ingredientArray = new String[ingredients.size()];
+        for (int k = 0; k < ingredients.size(); ++k) {
+            ingredientArray[k] = ingredients.get(k);
+        }
         final ArrayAdapter<String> allIngredientAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, ingredientArray);
+
+        ListView ingredientListView = (ListView)findViewById(R.id.addDrink_addIngredientList);
+        final ArrayAdapter<Ingredient> ingredientAdapter = new ArrayAdapter<Ingredient>(AddDrinkActivity.this, android.R.layout.simple_list_item_1, ingredientsToAdd);
+        ingredientListView.setAdapter(ingredientAdapter);
+        ingredientListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ingredientsToAdd.remove(position);
+                ingredientAdapter.notifyDataSetChanged();
+                Toast.makeText(getBaseContext(), R.string.addDrink_removedIngredientFromList, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Add ingredient
         Button addIngredientBtn = (Button)findViewById(R.id.addDrink_addIngredientBtn);
-        addIngredientBtn.setOnClickListener(new AddIngredientListener(this, allIngredientAdapter, ingredientsToAdd));
-        addIngredientBtn.setOnClickListener(new OpenAddIngredient(this, allIngredientAdapter, ingredientsToAdd));
+        addIngredientBtn.setOnClickListener(new OpenAddIngredient(this, allIngredientAdapter, ingredientAdapter, ingredientsToAdd));
 
-        ListView ingredientListView = (ListView)findViewById(R.id.addDrink_addIngredientList);
-        ArrayAdapter<Ingredient> ingredientAdapter = new ArrayAdapter<Ingredient>(AddDrinkActivity.this, android.R.layout.simple_list_item_1, ingredientsToAdd);
-        ingredientListView.setAdapter(ingredientAdapter);
-
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         //Confirm button
         Button confirmDrinkBtn = (Button)findViewById(R.id.addDrink_confirmBtn);
@@ -67,15 +81,13 @@ public class AddDrinkActivity extends ToolbarActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    JSONObject JSONDrink = formToJSON();
+                    drink = formToDrink();
                     Intent intent = new Intent(v.getContext(), MainActivity.class);
-                    intent.putExtra(getString(R.string.addDrinkToMain), JSONDrink.toString());
+                    intent.putExtra(getString(R.string.addDrinkToMain), drink);
                     startActivity(intent);
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 } catch (IllegalArgumentException e) {
                     e.printStackTrace();
-                    Toast.makeText(v.getContext(), R.string.addDrink_error_incompleteForm, Toast.LENGTH_SHORT);
+                    Toast.makeText(v.getContext(), R.string.addDrink_error_incompleteForm, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -93,7 +105,7 @@ public class AddDrinkActivity extends ToolbarActivity {
 
     }
 
-    private JSONObject formToJSON() throws JSONException, IllegalArgumentException {
+    private Drink formToDrink() throws IllegalArgumentException {
         //Info to send to DB
         String drinkName = ((TextView)findViewById(R.id.addDrink_name)).getText().toString().trim();
         String glassType = ((Spinner)findViewById(R.id.addDrink_glass_spinner)).getSelectedItem().toString().trim();
@@ -104,11 +116,7 @@ public class AddDrinkActivity extends ToolbarActivity {
             throw new IllegalArgumentException(getString(R.string.addDrink_error_incompleteForm));
         }
 
-        drink = new Drink(drinkName, glassType, instructions, ingredientsToAdd);
-
-        JSONObject JSONDrink = drink.toJSON();
-
-        return JSONDrink;
+        return new Drink(drinkName, glassType, instructions, ingredientsToAdd);
     }
 
 }

@@ -89,7 +89,7 @@ public class Ingredient implements Parcelable, Comparable {
 
     @Override
     public String toString() {
-        return size + " " + unit + " " + name;
+        return getFormattedSize() + " " + getFormattedName();
     }
 
     public JSONObject toJSON() throws JSONException {

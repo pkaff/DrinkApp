@@ -20,14 +20,14 @@ public class ConfirmAddIngredient implements DialogInterface.OnClickListener {
     private View view;
     private Spinner ingredientSelector;
     private ArrayList<Ingredient> ingredientsToAdd;
-    private ArrayAdapter<String> allIngredientAdapter;
+    private ArrayAdapter<Ingredient> ingredientsToAddAdapter;
 
-    public ConfirmAddIngredient(AddDrinkActivity activity, View view, Spinner ingredientSelector, ArrayList<Ingredient> ingredientsToAdd, ArrayAdapter<String> allIngredientAdapter) {
+    public ConfirmAddIngredient(AddDrinkActivity activity, View view, Spinner ingredientSelector, ArrayList<Ingredient> ingredientsToAdd, ArrayAdapter<Ingredient> ingredientsToAddAdapter) {
         this.activity = activity;
         this.view = view;
         this.ingredientSelector = ingredientSelector;
         this.ingredientsToAdd = ingredientsToAdd;
-        this.allIngredientAdapter = allIngredientAdapter;
+        this.ingredientsToAddAdapter = ingredientsToAddAdapter;
     }
 
     @Override
@@ -51,12 +51,17 @@ public class ConfirmAddIngredient implements DialogInterface.OnClickListener {
                 errorCaught = true;
                 t = Toast.makeText(view.getContext(), R.string.addDrink_addIngredient_error_size, Toast.LENGTH_SHORT);
             }
+            String ingredientUnit = addDrink_ingredient_unit.getText().toString();
+            Ingredient ingredientToAdd = new Ingredient(ingredientName, ingredientSize, ingredientUnit);
+            if (ingredientsToAdd.contains(ingredientToAdd)) {
+                errorCaught = true;
+                t = Toast.makeText(view.getContext(), R.string.addDrink_addIngredient_error_duplicatedIngredient, Toast.LENGTH_SHORT);
+            }
             if (!errorCaught) {
-                String ingredientUnit = addDrink_ingredient_unit.getText().toString();
-                ingredientsToAdd.add(new Ingredient(ingredientName, ingredientSize, ingredientUnit));
-                allIngredientAdapter.notifyDataSetChanged();
+                ingredientsToAdd.add(ingredientToAdd);
                 t = Toast.makeText(view.getContext(), R.string.addDrink_addIngredient_success_ingAdded, Toast.LENGTH_SHORT);
                 dialog.dismiss();
+                ingredientsToAddAdapter.notifyDataSetChanged();
             }
         }
         t.show();

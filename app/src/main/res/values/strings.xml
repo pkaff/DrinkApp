@@ -52,8 +52,11 @@
 
     <!--Toasts-->
     <string name="addDrink_error_incompleteForm">You have not filled out all fields</string>
+    <string name="addDrink_removedIngredientFromList">Ingredient removed from drink</string>
     <string name="addDrink_addIngredient_success_ingAdded">Ingredient added to drink</string>
     <string name="addDrink_addIngredient_error_size">Size is not a double</string>
+    <string name="addDrink_addIngredient_error_duplicatedIngredient">Duplicate ingredient</string>
+    <string name="database_sqliteException">Error when trying to add drink to database</string>
 
     <!--Filtering setting-->
     <string name="filterModePrefTitle">Filtering mode</string>

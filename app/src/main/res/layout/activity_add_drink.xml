@@ -56,27 +56,27 @@
                 </Spinner>
             </RelativeLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/addDrink_ingredient"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/addDrink_glass">
+                android:layout_below="@id/addDrink_glass"
+                android:paddingBottom="20dp">
+
+                <ListView
+                    android:id="@+id/addDrink_addIngredientList"
+                    android:layout_width="0dp"
+                    android:layout_height="200dp"
+                    android:layout_weight="0.5"
+                    android:paddingRight="20dp"/>
 
                 <Button
                     android:id="@+id/addDrink_addIngredientBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentRight="true"
-                    android:text="@string/addDrinkHint_ingredient"/>
+                    android:text="@string/addDrinkHint_ingredient" />
 
-                <ListView
-                    android:id="@+id/addDrink_addIngredientList"
-                    android:layout_width="wrap_content"
-                    android:layout_height="200dp"
-                    android:layout_alignParentLeft="true"></ListView>
-
-            </RelativeLayout>
+            </LinearLayout>
 
 
             <EditText
@@ -94,7 +94,8 @@
                 android:id="@+id/addDrink_buttons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/addDrink_instructions">
+                android:layout_below="@id/addDrink_instructions"
+                android:paddingTop="20dp">
                 <Button
                     android:id="@+id/addDrink_cancelBtn"
                     android:layout_width="wrap_content"
