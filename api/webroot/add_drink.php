@@ -13,7 +13,7 @@ if(isset($_POST['drink_name'])) {
 	if(isOk($p['drink_name']) && isOk($p['drink_glass']) && is_array($p['ingredient_names']) && is_array($p['ingredient_quantities']) && is_array($p['ingredient_units']) && isOk($p['drink_description'])) {
 		global $db;
 		
-		$statement = $db->prepare("INSERT INTO drink(name, glass, instructions) VALUES(?, ?, ?) ");
+		$statement = $db->prepare("INSERT INTO drink(name, glass, instructions, modified) VALUES(?, ?, ?, now()) ");
 		$statement->bind_param("sss", strtolower($p['drink_name']), strtolower($p['drink_glass']), strtolower($p['drink_description']));
 		$result = $statement->execute();
 		
@@ -24,7 +24,13 @@ if(isset($_POST['drink_name'])) {
 			$quantity = $p['ingredient_quantities'][$i];
 			$unit = $p['ingredient_units'][$i];
 			
-			if(isOk($name) && isOk($quantity) && isOk($unit)) {
+			if(strlen($quantity) == 0) {
+				$quantity = 0;
+			}
+			if (strlen($unit) == 0) {
+				$unit = '';
+			}
+			if(isOk($name) && isOk($quantity)) {
 				$findIngredientStatement = $db->prepare("SELECT * FROM ingredient WHERE name = ?");
 				$findIngredientStatement->bind_param("s", strtolower($name));
 				$findIngredientStatement->execute();
