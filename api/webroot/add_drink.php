@@ -117,8 +117,10 @@ if(isset($_POST['drink_name'])) {
 				<select class="form-control" name="drink_glass">
 					<option>margarita</option>
 					<option>highball</option>
-					<option>margarita/martini</option>
+					<option>martini</option>
 					<option>champagne</option>
+					<option>beer</option>
+					<option>hurricane</option>
 				</select>
 				
 				
