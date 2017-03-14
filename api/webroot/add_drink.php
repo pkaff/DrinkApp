@@ -121,6 +121,7 @@ if(isset($_POST['drink_name'])) {
 					<option>champagne</option>
 					<option>beer</option>
 					<option>hurricane</option>
+					<option>pint</option>
 				</select>
 				
 				
